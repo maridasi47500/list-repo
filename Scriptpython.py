@@ -111,25 +111,23 @@ def crawler():
             if len(x.strip()) > 0:
                 with open("demofile.sh", "a") as f:
                     f.write("\npython3 scaffold.py "+x)
-        with open("pleasecopynow.sh", "w") as f:
+        with open("pleasecopynow"+repo+".sh", "w") as f:
             f.write("echo 'banana'")
 
 
 
-        with open("pleasecopynow.sh", "a") as f:
+        with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\ncp scaffold.py ~/")
-        with open("pleasecopynow.sh", "a") as f:
+        with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\ncp hellopython.sh ~/")
-        with open("pleasecopynow.sh", "a") as f:
+        with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\ncp demofile.sh ~/")
-        with open("pleasecopynow.sh", "a") as f:
+        with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh "+repo+")\"")
-        with open("pleasecopynow.sh", "a") as f:
+        with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\nproj")
 
 
-        subprocess.run(["chmod", "u+x", "/pleasecopynow.sh"]) 
-        subprocess.run(["./pleasecopynow.sh"]) 
     else:
         bdd=[]
 

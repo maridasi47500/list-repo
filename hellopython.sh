@@ -149,10 +149,10 @@ EOF`" > "$1/schema.sql"
 cp scaffold.py /home/$USER/$1
 cp demofile.sh /home/$USER/$1
 alias proj="cd /home/$USER/$1"
-alias proj1="sh demofile.sh"
-alias proj2="git add ."
-alias proj3="git commit -am 'wow dljfghsfj'"
-alias proj4="git push origin main"
+alias proj1="(cd /home/$USER/$1 && sh demofile.sh)"
+alias proj2="(cd /home/$USER/$1 && git add .)"
+alias proj3="(cd /home/$USER/$1 && git commit -am 'wow dljfghsfj')"
+alias proj4="(cd /home/$USER/$1 && git push origin main)"
 proj
 proj1
 proj2

@@ -101,39 +101,40 @@ def crawler():
         print(f"Error fetching repositories: {e}")
 
     myreadme = response.text
-    if flask.request.method == 'POST':
+    if request.method == 'POST':
         bdd=request.form["bdd"].split("\n")
         with open("demofile.sh", "w") as f:
             f.write("")
 
 
         for x in bdd:
-            with open("demofile.sh", "a") as f:
-                f.write("\npython3 scaffold.py "+x)
+            if len(x.strip()) > 0:
+                with open("demofile.sh", "a") as f:
+                    f.write("\npython3 scaffold.py "+x)
         with open("pleasecopynow.sh", "w") as f:
-            f.write("")
+            f.write("echo 'banana'")
 
 
-        for x in bdd:
-            with open("pleasecopynow.sh", "a") as f:
-                f.write("cp scaffold.py ~/")
-            with open("pleasecopynow.sh", "a") as f:
-                f.write("\ncp hellopython.sh ~/")
-            with open("pleasecopynow.sh", "a") as f:
-                f.write("\ncp demofile.sh ~/")
-            with open("pleasecopynow.sh", "a") as f:
-                f.write("\nalias proj=\"(cd ~ && . hellopython.sh "+repo+")\"")
-            with open("pleasecopynow.sh", "a") as f:
-                f.write("\nproj")
+
+        with open("pleasecopynow.sh", "a") as f:
+            f.write("\ncp scaffold.py ~/")
+        with open("pleasecopynow.sh", "a") as f:
+            f.write("\ncp hellopython.sh ~/")
+        with open("pleasecopynow.sh", "a") as f:
+            f.write("\ncp demofile.sh ~/")
+        with open("pleasecopynow.sh", "a") as f:
+            f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh "+repo+")\"")
+        with open("pleasecopynow.sh", "a") as f:
+            f.write("\nproj")
 
 
-        subprocess.run([".", "pleasecopynow.sh"]) 
+        subprocess.run(["sh", "pleasecopynow.sh"]) 
     else:
         bdd=[]
 
 
 
-    return render_template("crawler.html", readme=myreadme)
+    return render_template("crawler.html", readme=myreadme, repo=repo, username=user)
 
 if __name__ == "__main__":
     app.run()

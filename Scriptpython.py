@@ -126,8 +126,6 @@ def crawler():
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\ncp hellopython.sh ~/")
         with open("pleasecopynow"+repo+".sh", "a") as f:
-            f.write("\ncp demofile.sh ~/")
-        with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh "+repo+")\"")
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\nproj")

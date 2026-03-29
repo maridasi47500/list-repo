@@ -146,9 +146,11 @@ VALUES( '1', 'anonyme', 'noname', 'anonymous@email.fr', '+2653546434');
 INSERT OR IGNORE INTO contacts (contact_id, first_name, last_name, email, phone)
 VALUES( '2', 'anne onim', 'onim', 'anne.onim@email.com', '+86877779898');
 EOF`" > "$1/schema.sql"
-cp scaffold.py /home/$USER/$1
-cp demofile.sh /home/$USER/$1
-alias proj="cd /home/$USER/$1"
+pwd
+cp ~/list-repo/scaffold.py /home/$USER/$1
+cp ~/list-repo/hellopython.sh /home/$USER/$1
+cp ~/list-repo/demofile.sh /home/$USER/$1
+alias proj="(cd /home/$USER/$1 && pwd)"
 alias proj1="(cd /home/$USER/$1 && sh demofile.sh)"
 alias proj2="(cd /home/$USER/$1 && git add .)"
 alias proj3="(cd /home/$USER/$1 && git commit -am 'wow dljfghsfj')"

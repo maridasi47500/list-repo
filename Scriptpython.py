@@ -128,7 +128,8 @@ def crawler():
             f.write("\nproj")
 
 
-        subprocess.run(["sh", "pleasecopynow.sh"]) 
+        subprocess.run(["chmod", "u+x", "/pleasecopynow.sh"]) 
+        subprocess.run(["./pleasecopynow.sh"]) 
     else:
         bdd=[]
 

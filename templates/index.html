@@ -1,0 +1,22 @@
+<form>
+<div>
+<label>
+envoyer un username
+</label>
+<input value="{{ username }}" name="username"/>
+</div>
+<div>
+<label>
+page number
+</label>
+<input name="pageno" value="{{ pageno }}"/>
+</div>
+<input type="submit" value="envoyer"/>
+
+</form>
+<h2> repos for {{ username }}</h2>
+{% for x in repos %}
+<li>
+<a target="_blank" href="/crawler?username={{ username }}&repo={{ x }}">{{ x }}</a>
+</li>
+{% endfor%}

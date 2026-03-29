@@ -103,16 +103,21 @@ def crawler():
     myreadme = response.text
     if request.method == 'POST':
         bdd=request.form["bdd"].split("\n")
-        with open("demofile.sh", "w") as f:
-            f.write("")
 
+
+        with open("pleasecopynow"+repo+".sh", "w") as f:
+            f.write("echo 'banana'")
+        with open("pleasecopynow"+repo+".sh", "a") as f:
+            f.write("echo \"`cat << EOF")
 
         for x in bdd:
             if len(x.strip()) > 0:
-                with open("demofile.sh", "a") as f:
+                with open("pleasecopynow"+repo+".sh", "a") as f:
                     f.write("\npython3 scaffold.py "+x)
-        with open("pleasecopynow"+repo+".sh", "w") as f:
-            f.write("echo 'banana'")
+        with open("pleasecopynow"+repo+".sh", "a") as f:
+            f.write("EOF`\" > \"$1/demofile.sh\"")
+
+
 
 
 

@@ -108,14 +108,14 @@ def crawler():
         with open("pleasecopynow"+repo+".sh", "w") as f:
             f.write("echo 'banana'")
         with open("pleasecopynow"+repo+".sh", "a") as f:
-            f.write("echo \"`cat << EOF")
+            f.write("\necho \"`cat << EOF\n")
 
         for x in bdd:
             if len(x.strip()) > 0:
                 with open("pleasecopynow"+repo+".sh", "a") as f:
-                    f.write("\npython3 scaffold.py "+x)
+                    f.write("\npython3 scaffold.py "+x.strip())
         with open("pleasecopynow"+repo+".sh", "a") as f:
-            f.write("EOF`\" > \"$1/demofile.sh\"")
+            f.write("\nEOF`\" > \"./demofile.sh\"")
 
 
 

@@ -14,7 +14,7 @@ echo "`cat <<EOF
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>{{ the_title }}</title>
+	<title>{% block montitre %}{% endblock %}$2{{ the_title }}</title>
 
 	<!-- note the special href for files in the Flask "static" folder -->
 	<link rel="stylesheet" href="/static/css/main.css">
@@ -38,12 +38,16 @@ EOF`" > "$1/templates/base.html"
 echo "`cat <<EOF
 {% extends 'base.html' %}
 
+{% block montitre %}
+$2
+{% endblock %}
 {% block content %}
 <h1># $1</h1>
 {% for x in users | reverse %}
  <li>{{ x["first_name"]  }}</li>
 
 {% endfor %} 
+$3
 {% endblock %}
 {% block liens %}
 <a href="/">welcome</a>

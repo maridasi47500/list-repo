@@ -30,7 +30,7 @@ def list_github_repos(username, token=None,pagenumber=1):
 
     repos_data = response.json()
     # Extract repository names
-    repo_names = [repo["name"] for repo in repos_data]
+    repo_names = [{"name":repo["name"], "language":repo["language"], "description":repo["description"]} for repo in repos_data]
     return repo_names
 
 

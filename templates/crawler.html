@@ -1,5 +1,13 @@
 <a href="/?username={{username }}">back to page 1</a>
 <h2>readme {{ repo }} de {{ username }}</h2>
+<a target="_blank" href="https://github.com/{{ username }}/{{ repo }}">accéder au repository</a>
+<p>
+to clone this repository : 
+
+<code>
+git clone git@github.com:{{ username }}/{{ repo }}.git
+</code>
+</p>
 <textarea style="height:200px;width:100%;" readonly=true>
 {{readme}}
 </textarea>

@@ -89,6 +89,10 @@ def crawler():
     except:
         user = ""
     try:
+        pageno = request.args.get("pageno")
+    except:
+        pageno=""
+    try:
         repo = request.args.get("repo")
     except:
         repo=""
@@ -138,7 +142,7 @@ def crawler():
 
 
 
-    return render_template("crawler.html", readme=myreadme, repo=repo, username=user)
+    return render_template("crawler.html", readme=myreadme, repo=repo, username=user, pageno=pageno)
 
 if __name__ == "__main__":
     app.run()

@@ -7,6 +7,7 @@ database.db
 EOF`" > "$1/.gitignore" 
 mkdir "$1/templates" 
 mkdir "$1/static/css" -p
+
 echo "`cat <<EOF
 <!DOCTYPE html>
 <html>
@@ -35,6 +36,7 @@ echo "`cat <<EOF
 </body>
 </html>
 EOF`" > "$1/templates/base.html" 
+
 echo "`cat <<EOF
 {% extends 'base.html' %}
 

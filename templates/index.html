@@ -17,7 +17,7 @@ page number
 <h2> repos for {{ username }}</h2>
 {% for x in repos %}
 <li>
-<a target="_blank" href="/crawler?username={{ username }}&repo={{ x["name"] }}">{{ x["name"] }} (<i>{{ x["language"] }}</i>)</a><br><span style="font-size:14px;">{{ x["description"] }} 
+<a target="_blank" href="/crawler?username={{ username }}&repo={{ x["name"] }}&pageno={{ pageno }}">{{ x["name"] }} (<i>{{ x["language"] }}</i>)</a><br><span style="font-size:14px;">{{ x["description"] }} 
 </span>
 </li>
 {% endfor%}

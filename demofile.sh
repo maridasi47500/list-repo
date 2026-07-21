@@ -1,8 +1,7 @@
-mkdir -p templates
-python3 scaffold.py langue_orientale name
-python3 scaffold.py personne name dateofbirth langue_orientale_id secteur_id salaire experience
-python3 scaffold.py secteur name
-python3 scaffold.py city_name
-python3 scaffold.py future_stuff stuff_type name pic user_id
-python3 scaffold.py job name
-python3 scaffold.py peoplehasjob person_id job_id
+
+mkdir templates 
+python3 scaffold.py photos name pic author_id
+python3 scaffold.py video name vid author_id
+python3 scaffold.py post title content author_id
+python3 scaffold.py recording title rec author_id
+python3 scaffold.py user username email password sex photo country_id

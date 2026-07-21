@@ -5,3 +5,4 @@
 - faire python3 Scriptpython.py
 - une fois que tu as fini 
 - vas dans list reop et fais . pleasecopynow**.sh
+- ATTENTION : fais . pleasecopynow**.sh , NE FAIS PAS sh pleasecopynow**.sh

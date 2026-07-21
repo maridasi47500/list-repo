@@ -116,7 +116,8 @@ def crawler():
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\necho \"`cat << EOF\n")
 
-        f.write("\nmkdir templates ")
+        with open("pleasecopynow"+repo+".sh", "a") as f:
+            f.write("\nmkdir templates ")
         for x in bdd:
             if len(x.strip()) > 0:
                 with open("pleasecopynow"+repo+".sh", "a") as f:
@@ -133,7 +134,7 @@ def crawler():
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\ncp hellopython.sh ~/")
         with open("pleasecopynow"+repo+".sh", "a") as f:
-            f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh "+repo+" \'debut de mes mots: "+debutmot+"\' \'fin de mes mots : "+finmot.strip().replace("'","")+"\')\"")
+            f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh '"+repo+"' \'debut de mes mots: "+debutmot.strip().replace("'","")+"\' \'fin de mes mots : "+finmot.strip().replace("'","")+"\')\"")
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\nproj")
 

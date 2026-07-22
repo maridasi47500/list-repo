@@ -112,7 +112,9 @@ def crawler():
 
 
         with open("pleasecopynow"+repo+".sh", "w") as f:
-            f.write("echo 'banana'")
+            f.write("#!/bin/bash")
+        with open("pleasecopynow"+repo+".sh", "a") as f:
+            f.write("\necho 'banana'")
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\necho \"`cat << EOF\n")
 

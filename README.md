@@ -6,3 +6,4 @@
 - une fois que tu as fini 
 - vas dans list reop et fais . pleasecopynow**.sh
 - ATTENTION : fais . pleasecopynow**.sh , NE FAIS PAS sh pleasecopynow**.sh
+- First, ensure your script begins with the correct hash-bang, eg #!/bin/bash Then make sure the .sh file is executable

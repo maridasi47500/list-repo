@@ -109,7 +109,6 @@ def crawler():
         debutmot=request.form["debutmot"].strip()
         finmot=request.form["finmot"].strip()
         bdd=request.form["bdd"].split("\n")
-        mylogin=request.form["login"]
 
 
         with open("pleasecopynow"+repo+".sh", "w") as f:
@@ -137,7 +136,7 @@ def crawler():
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\ncp hellopython.sh ~/")
         with open("pleasecopynow"+repo+".sh", "a") as f:
-            f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh '"+repo+"' \'debut de mes mots: "+debutmot.strip().replace("'","")+"\' \'fin de mes mots : "+finmot.strip().replace("'","")+"\') \'"+mylogin+"\'\"")
+            f.write("\nalias proj=\"(cd ~ && . ./hellopython.sh '"+repo+"' \'debut de mes mots: "+debutmot.strip().replace("'","")+"\' \'fin de mes mots : "+finmot.strip().replace("'","")+"\')\"")
         with open("pleasecopynow"+repo+".sh", "a") as f:
             f.write("\nproj")
 

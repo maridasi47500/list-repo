@@ -23,19 +23,24 @@ mysession="["
 myparam=","
 items=sys.argv
 referencesstr=""
+references=""
 requestfiles="""
+"""
+sqltousles="""
+"""
+sqltousles2="""
 """
 while index < (len(items)):
 
     try:
       print(index, items[index])
       hasfile=""
-      references=""
+      referencesstr=""
       paramname=items[index]
       if ":file" in paramname: 
           hasfile="yes"
       if ":references" in paramname: 
-          references="yes"
+          referencesstr="yes"
       paramname=items[index].replace(":file","").replace(":references","")
       print(items[(index+1)])
     except:
@@ -50,17 +55,26 @@ while index < (len(items)):
             uploaded_file.save(os.path.join('static/photos', uploaded_file.filename))
 
         hey["{paramname}"]=uploaded_file.filename
-"""
+""".format(paramname=paramname)
 
 
     if referencesstr == "yes":
-        references+=", tousles{paramname}=tousles{paramname}".format(paramname=paramname)
-        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
-    else:
+        references+=", tousles{paramname}=tousles{paramname}".format(paramname=paramname.replace("_id",""))
+        sqltousles+="""
+        tousles{paramname}= query_db("select * from {paramname}")
+""".format(paramname=paramname.replace("_id",""))
+        sqltousles2+="""
+    tousles{paramname}= query_db("select * from {paramname}")
+""".format(paramname=paramname.replace("_id",""))
         formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\">".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
-        formhtml+="{% for some{paramname} in tousles{paramname} %}".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
-        formhtml+="<option value={{ some"+paramname+"['id'] }}">{{ some"+paramname+"['name'] }}</option>{% endif %}"
+        formhtml+="{% "+"for some{paramname} in tousles{paramname}".format(myparam=myparam,paramname=paramname.replace("_id",""),mytype=myfieldtype)+" %}"
+        formhtml+="<option value=\"{{ some"+paramname+"['id'] }}\">{{ some"+paramname+"['name'] }}</option>{% endfor %}"
         formhtml+="</select></div>"
+
+    else:
+        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+
+
     mysession+="'{paramname}'{myparam}".format(myparam=myparam,paramname=paramname)
     columns+="{paramname}{myparam}".format(myparam=myparam,paramname=paramname)
     values+=":{paramname}{myparam}".format(myparam=myparam,paramname=paramname)
@@ -68,7 +82,7 @@ while index < (len(items)):
     """.format(myparam=myparam,paramname=paramname)
 columns+=")"
 values+=")"
-mysession+=")"
+mysession+="]"
 mystr="""create table if not exists {filename}(
         id integer primary key autoincrement,
 """
@@ -88,6 +102,7 @@ def add_one_{filename}():
         the_username = "anonyme"
         hey=request.form"""
 addone+=requestfiles
+addone+=sqltousles
 
 addone+="""
         one_user = query_db("insert into {filename} {columns} values {values}",hey)
@@ -100,14 +115,17 @@ if filename == "user":
         for x in {mysession}:
             session[x]=hey[x]
 
-"""
+""".format(filename=filename, mysession=mysession,columns=columns,values=values)
 addone+="""
-        return render_template("{filename}form.html", {filename}s=user, one_user=one_user, the_title="add new {filename}")
+        return render_template("{filename}form.html", {filename}s=user, one_user=one_user, the_title="add new {filename}"{references})
+""".format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
+addone+=sqltousles2
+addone+="""
     user = query_db('select * from {filename}')
     one_user = query_db("select * from {filename} limit 1", one=True)
     return render_template("{filename}form.html", {filename}s=user, one_user=one_user, the_title="add new {filename}")
 
-"""
+""".format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
 if filename == "user":
     addone+="""
 @app.route("/{filename}_sign_out", methods=["GET","POST"])
@@ -131,7 +149,7 @@ def {filename}_login():
         except:
             return render_template("{filename}login.html")
     return render_template("{filename}login.html")
-"""
+""".format(filename=filename,mysession=mysession,columns=columns,values=values)
 
 
 with open("app.py", "a") as myfile:
@@ -143,7 +161,7 @@ with open("templates/hey.html", "a") as myfile:
 
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml.format(filename=filename)+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2]+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2]+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
 
 
 if filename == "user":

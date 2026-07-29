@@ -14,6 +14,8 @@ page number
 <input type="submit" value="envoyer"/>
 
 </form>
+<a href="/?username={{ username }}&pageno={{ (pageno) | int - 1 }}"><----{{ (pageno) | int - 1 }}</a>
+<a href="/?username={{ username }}&pageno={{ pageno | int + 1 }}">{{ pageno | int + 1 }}---></a>
 <h2> repos for {{ username }}</h2>
 {% for x in repos %}
 <li>

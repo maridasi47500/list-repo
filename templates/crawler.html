@@ -12,13 +12,13 @@ git clone git@github.com:{{ username }}/{{ repo }}.git
 {{readme}}
 </textarea>
 <p>
-quelles bases de données veux tu ? (pour "user" il y a un login/sign in quand tu ajoute quelqu'un) ecris:
+quelles bases de données veux tu ? (pour "user" il y a un login/sign in quand tu ajoute quelqu'un)(ajouter :file à coté du nom de colonne si c'est une iamge/video/text ou que tu ajoutes une pièce jointe (nom_colonne:file)), ajoute ":references" pour lier une table à une colonne avec la relation belongs to) ecris un truc comme:
 </p>
 <p>
-nom_table1 nom_colonne1 nom_colonne2 nom_colonne3
+nom_table1 nom_colonne1 nom_colonne2 nom_colonne3:file
 </p>
 <p>
-nom_table2 nom_colonne1 nom_colonne2 nom_colonne3
+nom_table2 nom_colonne1 nom_colonne2:references nom_colonne3
 </p>
 <p>etc.</p>
 <form method="post">

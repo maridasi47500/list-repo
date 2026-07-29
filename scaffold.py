@@ -22,6 +22,7 @@ values="("
 mysession="["
 myparam=","
 items=sys.argv
+referencesstr=""
 requestfiles="""
 """
 while index < (len(items)):
@@ -29,10 +30,13 @@ while index < (len(items)):
     try:
       print(index, items[index])
       hasfile=""
+      references=""
       paramname=items[index]
-      if ":file" in paramname:
+      if ":file" in paramname: 
           hasfile="yes"
-      paramname=items[index].replace(":file","").replace(":number","")
+      if ":references" in paramname: 
+          references="yes"
+      paramname=items[index].replace(":file","").replace(":references","")
       print(items[(index+1)])
     except:
       myparam=""
@@ -49,7 +53,14 @@ while index < (len(items)):
 """
 
 
-    formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+    if referencesstr == "yes":
+        references+=", tousles{paramname}=tousles{paramname}".format(paramname=paramname)
+        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+    else:
+        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\">".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="{% for some{paramname} in tousles{paramname} %}".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="<option value={{ some"+paramname+"['id'] }}">{{ some"+paramname+"['name'] }}</option>{% endif %}"
+        formhtml+="</select></div>"
     mysession+="'{paramname}'{myparam}".format(myparam=myparam,paramname=paramname)
     columns+="{paramname}{myparam}".format(myparam=myparam,paramname=paramname)
     values+=":{paramname}{myparam}".format(myparam=myparam,paramname=paramname)

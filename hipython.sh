@@ -1,31 +1,28 @@
 #!/bin/bash
 export GITHUBUSERNAME="maridasi47500"
-mkdir -p "/home/$USER/$1/templates" 
-mkdir -p "/home/$USER/$1/static/css"
-touch "/home/$USER/$1/templates/base.html" 
-touch "/home/$USER/$1/templates/hey.html" 
-echo "&1 $1 $2 $3 $4 $5"
+mkdir -p "~/$1/templates" 
+echo "&1 $1 $2 $3 $4"
 pwd
 echo "git clone git@github.com:$GITHUBUSERNAME/$1.git"
 $(cd ~ && git clone "git@github.com:$GITHUBUSERNAME/$1.git")
-echo "__pycache__/\ndatabase.db" > "/home/$USER/$1/.gitignore" 
+echo "__pycache__/\ndatabase.db" > "~/$1/.gitignore" 
 echo "`cat <<EOF
 __pycache__/
 database.db
-EOF`" > "/home/$USER/$1/.gitignore" 
+EOF`" > "~/$1/.gitignore" 
 
 
-
+mkdir "~/$1/static/css" -p
 echo "====CREE COMMENCER.SH ====\n"
 echo "`cat <<EOF
 mkdir -p ~/path/to/venv
 python3 -m venv ~/path/to/venv
 source ~/path/to/venv/bin/activate
 flask run
-EOF`" > "/home/$USER/$1/commencer.sh" 
+EOF`" > "~/$1/commencer.sh" 
 echo "====CHECK COMMENCER.SH ====\n"
-echo "/home/$USER/$1/commencer.sh" 
-cat "/home/$USER/$1/commencer.sh" 
+echo "~/$1/commencer.sh" 
+cat "~/$1/commencer.sh" 
 
 echo "====CREE BASE HTML ====\n"
 echo "`cat <<EOF
@@ -38,7 +35,6 @@ echo "`cat <<EOF
 	<title>{% block montitre %}{% endblock %}$2{{ the_title }}</title>
 
 	<!-- note the special href for files in the Flask "static" folder -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 	<link rel="stylesheet" href="/static/css/main.css">
 
 </head>
@@ -53,14 +49,13 @@ echo "`cat <<EOF
   {% endblock %}
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
 </body>
 </html>
-EOF`" > "/home/$USER/$1/templates/base.html" 
+EOF`" > "~/$1/templates/base.html" 
 echo "====CHECK BASE  ====\n"
-echo "/home/$USER/$1/templates/base.html" 
-cat "/home/$USER/$1/templates/base.html" 
+echo "~/$1/templates/base.html" 
+cat "~/$1/templates/base.html" 
 
 
 echo "====CREE HEY HTML ====\n"
@@ -81,9 +76,9 @@ $3
 {% block liens %}
 <a href="/">welcome</a>
 {% endblock %}
-EOF`" > "/home/$USER/$1/templates/hey.html" 
+EOF`" > "~/$1/templates/hey.html" 
 echo "====CHECK HEY  ====\n"
-cat "/home/$USER/$1/templates/hey.html" 
+cat "~/$1/templates/hey.html" 
 echo "`cat <<EOF
 body {
 background:black;
@@ -92,7 +87,7 @@ color:white;
 a, a:visited, a:hover, a:link {
 color:white;
 }
-EOF`" > "/home/$USER/$1/static/css/main.css" 
+EOF`" > "~/$1/static/css/main.css" 
 echo "`cat <<EOF
 import sqlite3
 from flask import g
@@ -122,15 +117,13 @@ def query_db(query, args=(), one=False):
 
 
 
-EOF`" > "/home/$USER/$1/yourappdb.py"
+EOF`" > "~/$1/yourappdb.py"
 echo "`cat <<EOF
-from flask import Flask, render_template, request, session
-import os
+from flask import Flask, render_template, request
 from yourappdb import query_db, get_db
 from flask import g
 
 app = Flask(__name__)
-app.secret_key="any string"
 def init_db():
     with app.app_context():
         db = get_db()
@@ -152,7 +145,7 @@ def hello_world():
     one_user = query_db('select * from contacts where first_name = ?',
                 [the_username], one=True)
     return render_template("hey.html", users=user, one_user=one_user, the_title="my title")
-EOF`" > "/home/$USER/$1/app.py"
+EOF`" > "~/$1/app.py"
 echo "`cat <<EOF
 CREATE TABLE  IF NOT EXISTS contacts (
 	contact_id INTEGER PRIMARY KEY,
@@ -182,11 +175,11 @@ INSERT OR IGNORE INTO contacts (contact_id, first_name, last_name, email, phone)
 VALUES( '1', 'anonyme', 'noname', 'anonymous@email.fr', '+2653546434');
 INSERT OR IGNORE INTO contacts (contact_id, first_name, last_name, email, phone)
 VALUES( '2', 'anne onim', 'onim', 'anne.onim@email.com', '+86877779898');
-EOF`" > "/home/$USER/$1/schema.sql"
+EOF`" > "~/$1/schema.sql"
 pwd
-cp ~/list-repo/scaffold.py "/home/$USER/$1"
-cp ~/list-repo/hellopython.sh "/home/$USER/$1"
-cp ~/list-repo/demofile.sh "/home/$USER/$1"
+cp ~/list-repo/scaffold.py /home/$USER/$1
+cp ~/list-repo/hellopython.sh /home/$USER/$1
+cp ~/list-repo/demofile.sh /home/$USER/$1
 #alias proj="(cd /home/$USER/$1 && pwd)"
 #alias proj1="(cd /home/$USER/$1 && sh demofile.sh)"
 #alias proj2="(cd /home/$USER/$1 && git add .)"

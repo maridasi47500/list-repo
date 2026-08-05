@@ -57,11 +57,11 @@ while index < (len(items)):
         hey["{paramname}"]=uploaded_file.filename
 """.format(paramname=paramname)
     if paramname == "password":
-        myfieldtype == "password"
+        myfieldtype = "password"
     if paramname == "email":
-        myfieldtype == "email"
+        myfieldtype = "email"
     if paramname == "telephone" or paramname == "phone":
-        myfieldtype == "telephone"
+        myfieldtype = "telephone"
         
 
 

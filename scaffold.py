@@ -36,17 +36,28 @@ while index < (len(items)):
       print(index, items[index])
       hasfile=""
       referencesstr=""
+      checkbox=""
+      radiobutton=""
       paramname=items[index]
+      if ":checkbox" in paramname: 
+          checkbox="yes"
+      if ":radio" in paramname: 
+          radiobutton="yes"
+
       if ":file" in paramname: 
           hasfile="yes"
       if ":references" in paramname: 
           referencesstr="yes"
-      paramname=items[index].replace(":file","").replace(":references","")
+      paramname=items[index].replace(":checkbox","").replace(":file","").replace(":references","")
       print(items[(index+1)])
     except:
       myparam=""
     index += 1
     myfieldtype="text"
+    if radiobutton == "yes":
+        myfieldtype="radio"
+    if checkbox == "yes":
+        myfieldtype="checkbox"
     if hasfile == "yes":
       myfieldtype="file"
       requestfiles+="""
@@ -78,6 +89,10 @@ while index < (len(items)):
         formhtml+="<option value=\"{{ some"+paramname.replace("_id","")+"['id'] }}\">{{ some"+paramname.replace("_id","")+"['name'] }}</option>{% endfor %}"
         formhtml+="</select></div>"
 
+    elsif radiobutton == "yes":
+        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><label for=\"somefield{paramname}1\"><input type=\"{mytype}\" id=\"somefield{paramname}1\" name=\"{paramname}\" value="1"/>yes</label><label for=\"somefield{paramname}2\"><input type=\"{mytype}\" id=\"somefield{paramname}2\" name=\"{paramname}\" value="0"/>no</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+    elsif checkbox == "yes":
+        formhtml+="<div class=\"field\"><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\" value="1"/><label for=\"somefield{paramname}\">{paramname}</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
     else:
         formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
 
@@ -170,10 +185,10 @@ with open("templates/hey.html", "a") as myfile:
 
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
-        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div><label>username</label><input name=\"username\"/><div><label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
+        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div><label>username</label><input name=\"username\"/><div><label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
     

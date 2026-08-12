@@ -2,10 +2,16 @@
 <h2>readme {{ repo }} de {{ username }}</h2>
 <a target="_blank" href="https://github.com/{{ username }}/{{ repo }}">accéder au repository</a>
 <p>
-to clone this repository : 
+to clone this repository disconnect server : 
 
 <code>
-<input readonly="readonly" value="git clone git@github.com:{{ username }}/{{ repo }}.git" style="width:300px;"/>
+<input readonly="readonly" value="(cd .. && git clone git@github.com:{{ username }}/{{ repo }}.git)" style="width:300px;"/>
+</code>
+</p>
+<p>
+ to push the database of this repository disconnect server
+<code>
+<input readonly="readonly" value=". pleasecopynow{{ repo }}.sh" style="width:300px;"/>
 </code>
 </p>
 <textarea style="height:200px;width:100%;" readonly=true>

@@ -1,16 +1,12 @@
 
 mkdir templates 
-python3 scaffold.py user username phone country_id:references email password
-python3 scaffold.py userhasreviews user_id:references content reviewby
-python3 scaffold.py discosong composer_artist title
-python3 scaffold.py food name country_id:references
-python3 scaffold.py dance name
-python3 scaffold.py userhasdance dance_id:references user_id:references agility_level
-python3 scaffold.py userhasfood user_id:references food_id:references
-python3 scaffold.py artisthassong user_id:references discosong_id:references
-python3 scaffold.py city name
+python3 scaffold.py airport name city_id:references
+python3 scaffold.py user username phone email country_id:references password listener:radio musician:radio favorite_genre_id:references musicalinstrument_id:references artist_composer_or_band_id:references
+python3 scaffold.py musical_genre name
+python3 scaffold.py artist_composer_or_band name
+python3 scaffold.py photos airport_id:references pic:file description
+python3 scaffold.py musicalinstrument name
+python3 scaffold.py person name email phone country_id:references musicalinstrument_id:references oracle:radio
+python3 scaffold.py photoshavepeople person_id:references photos_id:references
 python3 scaffold.py country name
-python3 scaffold.py nightclub name city_id:references
-python3 scaffold.py nightclubhassong nightclub_id:references discosong_id:references
-python3 scaffold.py userhasnightclub user_id:references nightclub_id:references
-python3 scaffold.py userdating user_id:references otheruser_id:references
+python3 scaffold.py city name country_id:references

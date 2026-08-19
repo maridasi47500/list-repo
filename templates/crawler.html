@@ -1,3 +1,9 @@
+{% extends 'base.html' %}
+{% block montitre %}
+{{ repo }} de {{ username }}
+{% endblock %}
+
+{% block content %}
 <a href="/?username={{username }}&pageno={{ pageno }}">back to page {{ pageno }}</a>
 <h2>readme {{ repo }} de {{ username }}</h2>
 <a target="_blank" href="https://github.com/{{ username }}/{{ repo }}">accéder au repository</a>
@@ -12,6 +18,12 @@ to clone this repository disconnect server :
  to push the database of this repository disconnect server
 <code>
 <input readonly="readonly" value=". pleasecopynow{{ repo }}.sh" style="width:300px;"/>
+</code>
+</p>
+<p>
+ tout en 1 (clone this repository and push the database of this repository
+<code>
+<input readonly="readonly" value="(cd .. && git clone git@github.com:{{ username }}/{{ repo }}.git) && . pleasecopynow{{ repo }}.sh" style="width:300px;"/>
 </code>
 </p>
 <textarea style="height:200px;width:100%;" readonly=true>
@@ -42,3 +54,4 @@ nom_table2 nom_colonne1:radio nom_colonne2_id:references nom_colonne3
 <input value="send" type="submit"/>
 </form>
 
+{% endblock %}

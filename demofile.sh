@@ -1,12 +1,12 @@
 
 mkdir templates 
-python3 scaffold.py airport name city_id:references
-python3 scaffold.py user username phone email country_id:references password listener:radio musician:radio favorite_genre_id:references musicalinstrument_id:references artist_composer_or_band_id:references
-python3 scaffold.py musical_genre name
-python3 scaffold.py artist_composer_or_band name
-python3 scaffold.py photos airport_id:references pic:file description
-python3 scaffold.py musicalinstrument name
-python3 scaffold.py person name email phone country_id:references musicalinstrument_id:references oracle:radio
-python3 scaffold.py photoshavepeople person_id:references photos_id:references
-python3 scaffold.py country name
-python3 scaffold.py city name country_id:references
+python3 scaffold.py programminglanguage name short_name
+python3 scaffold.py command_processing programminglanguage_id:references type description script_or_cli
+python3 scaffold.py switch name programming_language_id:references description typeargument
+python3 scaffold.py interprocess_communication programminglanguage_id:references name description script
+python3 scaffold.py way_handle_insecure_data programminglanguage_id:references name description script
+python3 scaffold.py way_handle_insecure_code programminglanguage_id:references name description script
+python3 scaffold.py generate_other_language_in_the_programming_language programminglanguage_id:references otherprogramminglanguage_id:references description script
+python3 scaffold.py generate_the_programming_language_from_other_language programminglanguage_id:references fromotherprogramminglanguage_id:references description script
+python3 scaffold.py translate_the_programming_language_to_other_language programminglanguage_id:references otherprogramminglanguage_id:references description script
+python3 scaffold.py embedprogramminglanguageinascript programminglanguage_id:references script_programminglanguage_id:references description script

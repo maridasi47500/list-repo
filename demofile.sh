@@ -1,12 +1,12 @@
 
 mkdir templates 
-python3 scaffold.py programminglanguage name short_name
-python3 scaffold.py command_processing programminglanguage_id:references type description script_or_cli
-python3 scaffold.py switch name programming_language_id:references description typeargument
-python3 scaffold.py interprocess_communication programminglanguage_id:references name description script
-python3 scaffold.py way_handle_insecure_data programminglanguage_id:references name description script
-python3 scaffold.py way_handle_insecure_code programminglanguage_id:references name description script
-python3 scaffold.py generate_other_language_in_the_programming_language programminglanguage_id:references otherprogramminglanguage_id:references description script
-python3 scaffold.py generate_the_programming_language_from_other_language programminglanguage_id:references fromotherprogramminglanguage_id:references description script
-python3 scaffold.py translate_the_programming_language_to_other_language programminglanguage_id:references otherprogramminglanguage_id:references description script
-python3 scaffold.py embedprogramminglanguageinascript programminglanguage_id:references script_programminglanguage_id:references description script
+python3 scaffold.py user username email password phone country_id:references
+python3 scaffold.py country name
+python3 scaffold.py dependency name  description
+python3 scaffold.py dependency_data dependency_id:references attribute value
+python3 scaffold.py package name description
+python3 scaffold.py package_data dependency_id:references attribute value
+python3 scaffold.py commandline_load_dependency user_id:references dependency_id:references datetime  terminal_console_id:references  datetime datetime_end complete:radio
+python3 scaffold.py commandline_load_package user_id:references package_id:references datetime complete:radio  terminal_console_id:references datetime_end
+python3 scaffold.py terminal_console lat lon  name
+python3 scaffold.py terminal_console_status status terminal_console_id:references user_id:references

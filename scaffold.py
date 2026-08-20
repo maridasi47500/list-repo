@@ -24,6 +24,8 @@ myparam=","
 items=sys.argv
 referencesstr=""
 references=""
+mylastrowid="""
+"""
 requestfiles="""
 """
 sqltousles="""
@@ -37,8 +39,11 @@ while index < (len(items)):
       hasfile=""
       referencesstr=""
       checkbox=""
+      staff=""
       radiobutton=""
       paramname=items[index]
+      if ":staff" in paramname: 
+          staff="yes"
       if ":checkbox" in paramname: 
           checkbox="yes"
       if ":radio" in paramname: 
@@ -56,8 +61,22 @@ while index < (len(items)):
     myfieldtype="text"
     if radiobutton == "yes":
         myfieldtype="radio"
+    if staff == "yes":
+        myfieldtype="textarea"
     if checkbox == "yes":
         myfieldtype="checkbox"
+    if staff == "yes":
+        mylastrowid+="""
+    file_pointer = open("./samplescoreexample.ly")
+    contents = file_pointer.read()
+    contents=contents.replace("KEYSCOREHERE", request.form["key_signature"].replace(" "," \\")).replace("TIMESCOREHERE", request.form["time_signature"]).replace("CONTENTSCOREHERE", request.form["{columnname}"])
+    file_pointer = open("./scores/{tablename}_sample_"+mylastrowid+".ly", "w")
+    file_pointer.write(contents)
+    file_pointer.close()
+    file_pointer = open("./scores/{tablename}_sample_"+mylastrowid+".html", "w")
+    file_pointer.write("<lilypond staffsize=34>"+contents+"</lilypond>")
+    file_pointer.close()
+    subprocess.run(["lilypond-book", "scores/"+request.form["theme"]+"_sample_1.html", "-f", "html", "--output", "scores/samplescore"+request.form["theme"]]) """.format(tablename=filename,columnname=paramname)
     if hasfile == "yes":
       myfieldtype="file"
       requestfiles+="""
@@ -84,15 +103,15 @@ while index < (len(items)):
         sqltousles2+="""
     tousles{paramname}= query_db("select * from {paramname}")
 """.format(paramname=paramname.replace("_id",""))
-        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\">".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
-        formhtml+="{% "+"for some{paramname} in tousles{paramname}".format(myparam=myparam,paramname=paramname.replace("_id",""),mytype=myfieldtype)+" %}"
-        formhtml+="<option value=\"{{ some"+paramname.replace("_id","")+"['id'] }}\">{{ some"+paramname.replace("_id","")+"['name'] }}</option>{% endfor %}"
-        formhtml+="</select></div>"
+        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\">".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="\n{% "+"for some{paramname} in tousles{paramname}".format(myparam=myparam,paramname=paramname.replace("_id",""),mytype=myfieldtype)+" %}"
+        formhtml+="\n<option value=\"{{ some"+paramname.replace("_id","")+"['id'] }}\">{{ some"+paramname.replace("_id","")+"['name'] }}</option>{% endfor %}"
+        formhtml+="\n</select></div>"
 
     elif radiobutton == "yes":
-        formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><label for=\"somefield{paramname}1\"><input type=\"{mytype}\" id=\"somefield{paramname}1\" name=\"{paramname}\" value=\"1\"/>yes</label><label for=\"somefield{paramname}2\"><input type=\"{mytype}\" id=\"somefield{paramname}2\" name=\"{paramname}\" value=\"0\"/>no</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><label for=\"somefield{paramname}1\"><input type=\"{mytype}\" id=\"somefield{paramname}1\" name=\"{paramname}\" value=\"1\"/>yes</label>\n<label for=\"somefield{paramname}2\"><input type=\"{mytype}\" id=\"somefield{paramname}2\" name=\"{paramname}\" value=\"0\"/>no</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
     elif checkbox == "yes":
-        formhtml+="<div class=\"field\"><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\" value=\"1\"/><label for=\"somefield{paramname}\">{paramname}</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="\n<div class=\"field\"><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\" value=\"1\"/><label for=\"somefield{paramname}\">{paramname}</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
     else:
         formhtml+="<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
 
@@ -132,6 +151,7 @@ addone+="""
         one_user = query_db("insert into {filename} {columns} values {values}",hey)
         user = query_db('select * from {filename}')
 """
+addone+=mylastrowid
 if filename == "user":
     addone+="""
         last_user = query_db("select * from {filename} where email = ? and password = ?",[hey["email"], hey["password"]], one=True)

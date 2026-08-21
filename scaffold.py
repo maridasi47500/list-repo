@@ -67,26 +67,29 @@ while index < (len(items)):
         myfieldtype="checkbox"
     if staff == "yes":
         mylastrowid+="""
-    file_pointer = open("./samplescoreexample.ly")
-    contents = file_pointer.read()
-    contents=contents.replace("KEYSCOREHERE", request.form["key_signature"].replace(" "," \\")).replace("TIMESCOREHERE", request.form["time_signature"]).replace("CONTENTSCOREHERE", request.form["{columnname}"])
-    file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".ly", "w")
-    file_pointer.write(contents)
-    file_pointer.close()
-    file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "w")
-    file_pointer.write("<lilypond staffsize=34>"+contents+"</lilypond>")
-    file_pointer.close()
-    subprocess.run(["lilypond-book", "scores/{tablename}_{columnname}_sample_1.html", "-f", "html", "--output", "scores/samplescore{tablename}_{columnname}"]) 
+        file_pointer = open("./samplescoreexample.ly")
+        contents = file_pointer.read()
+        contents=contents.replace("KEYSCOREHERE", request.form["key_signature"]).replace(" "," \\")).replace("TIMESCOREHERE", request.form["time_signature"]).replace("CONTENTSCOREHERE", request.form["{columnname}"])
+        file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".ly", "w")
+        file_pointer.write(contents)
+        file_pointer.close()
+        file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "w")
+        file_pointer.write("<lilypond staffsize=34>"+contents+"</lilypond>")
+        file_pointer.close()
+        subprocess.run(["lilypond-book", "scores/{tablename}_{columnname}_sample_1.html", "-f", "html", "--output", "scores/samplescore{tablename}_{columnname}"]) 
 
-    try:
-        f= open("scores/samplescore{tablename}_{columnname}/{tablename}_{columnname}_sample_1.html")
-        s = f.read()
-        soup = BeautifulSoup(s)
-        picvalue={"pic": soup.find_all('img')[0].get("src")}
-    except:
-        picvalue={"pic": ""}
-    hello_there = query_db("update {filename} set (pic) values (:pic)",picvalue, one=True)
-
+        try:
+            f= open("scores/samplescore{tablename}_{columnname}/{tablename}_{columnname}_sample_1.html")
+            s = f.read()
+            soup = BeautifulSoup(s)
+""".format(tablename=filename,columnname=paramname)
+        mylastrowid+="""
+            picvalue={'pic': soup.find_all('img')[0].get("src")}
+        except:
+            picvalue={'pic': ""}
+"""
+        mylastrowid+="""
+        hello_there = query_db("update {tablename} set pic=:pic",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
     if hasfile == "yes":
       myfieldtype="file"
@@ -154,15 +157,15 @@ def add_one_{filename}():
     if request.method == 'POST':
 
         the_username = "anonyme"
-        hey=dict(request.form)"""
-addone+=requestfiles
-addone+=sqltousles
+        hey=dict(request.form)""".format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
+addone+=requestfiles.format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
+addone+=sqltousles.format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
 
 addone+="""
         one_user = query_db("insert into {filename} {columns} values {values}",hey, one=True)
         mylastrowid=one_user["myid"]
         user = query_db('select * from {filename}')
-"""
+""".format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
 addone+=mylastrowid
 if filename == "user":
     addone+="""
@@ -209,7 +212,8 @@ def {filename}_login():
 
 
 with open("app.py", "a") as myfile:
-    myfile.write(addone.format(filename=filename,columns=columns,values=values))
+    #myfile.write(addone.format(filename=filename,columns=columns,values=values))
+    myfile.write(addone)
 with open("schema.sql", "a") as myfile:
     myfile.write(mystr.format(filename=filename))
 with open("templates/hey.html", "a") as myfile:

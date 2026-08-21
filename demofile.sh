@@ -1,12 +1,9 @@
 
 mkdir templates 
-python3 scaffold.py country name
-python3 scaffold.py user username email phone password country_id:references
-python3 scaffold.py city name country_id:references
-python3 scaffold.py destination budget city_id:references emotional_state
-python3 scaffold.py job name
-python3 scaffold.py set_yourself user_id:references what_you_re_great_at_doing
-python3 scaffold.py help_other advice_type user_id:references otheruser_id:references content
-python3 scaffold.py dreamjob user_id:references job_id:references
-python3 scaffold.py career_relationship user_id:references content
-python3 scaffold.py connectpeople user_id:references otheruser_id:references values emotional_goals
+python3 scaffold.py user username email password phone country_id:references
+python3 scaffold.py gem_quest place_name lat lon
+python3 scaffold.py seasonal_sport name season
+python3 scaffold.py place_visit gem_quest_id:references user_id:references seasonal_sport_id:references
+python3 scaffold.py panomaric_view description gem_quest_id:references
+python3 scaffold.py job_offer name description user_id:references
+python3 scaffold.py myscore mymusic:staff pic user_id:references time_signature key_signature time_signature

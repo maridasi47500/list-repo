@@ -57,6 +57,37 @@ const LeafIcon = L.Icon.extend({
 
 
                                                                                                                                                                                                       $(document).ready(function(){
+
+
+
+                                                                                                                                                                                                              initMap();
+                                              if (window.location.pathname==="/" || window.location.pathname==="/add_one_{tablename}"){
+						      $.ajax({
+							      url:"/voirtoutcequejaiajoute",
+							      success: function(data){
+								      var latlng,marker,tout=data.tout,hey,mypopup={},icon;
+								      for(var i=0;i<tout.length;i++){
+									      hey=tout[i];
+ if ((window.location.pathname==="/alldatastorage" && hey.stuff !== "storage") || (window.location.pathname==="/allremedes" && hey.stuff !== "remede") || (window.location.pathname==="/allmynews" && hey.stuff !== "news")){
+    continue;
+ }
+
+                                                                              mypopup[i] = L.popup();
+									      latlng={
+										          "lat": Number(hey.lat),
+										          "lng": Number(hey.lon) 
+									      };
+									      console.log(latlng);
+	                                                                      mypopup[i]
+	                                                                          .setLatLng(latlng)
+	                                                                          .setContent("1 "+hey.stuff+" apparait sur la carte a " + latlng.lat+" "+latlng.lng+"("+hey.content+")")
+	                                                                          .openOn(macarte);
+									      icon=new LeafIcon({iconUrl: "/mypic/"+hey.stuff+".png"});
+	                                                                      mymarker = L.marker(latlng, {icon: icon}).bindPopup(mypopup[i]).addTo(macarte)
+								      }
+							      }
+						      });
+
 if (document.getElementById("loadmycity")){
 $('button#loadmycity').on('click', function () {
     var fData = new FormData();
@@ -68,7 +99,7 @@ $('button#loadmycity').on('click', function () {
     console.log("lieu", monlieu1.value);
     console.log("rayon", monrayon1.value);
     console.log("sendemail", "anonyme@email.com");
-    $.ajax({url:"/chercherjobcity",
+    $.ajax({url:"/searchjobcity",
 
 
  type:"POST", 
@@ -100,8 +131,8 @@ success:function(data){
     maville1.value=data.ville;
     monpays1.value=data.pays; 
     moncode1.value=data.code;
-    malatitude1.value=data.latitude;
-    malongitude1.value=data.longitude;
+    somefield{tablename}lat.value=data.latitude;
+    somefield{tablename}lon.value=data.longitude;
     if (String(data.region) !== "undefined"){
     monadresse.innerHTML =String(data.region);
     monadresse.innerHTML +=", "+String(data.city);
@@ -122,34 +153,5 @@ success:function(data){
 return false;
 });
 };
-
-
-                                                                                                                                                                                                              initMap();
-                                              if (window.location.pathname==="/" || window.location.pathname==="/add_one_{tablename}"){
-						      $.ajax({
-							      url:"/voirtoutcequejaiajoute",
-							      success: function(data){
-								      var latlng,marker,tout=data.tout,hey,mypopup={},icon;
-								      for(var i=0;i<tout.length;i++){
-									      hey=tout[i];
- if ((window.location.pathname==="/alldatastorage" && hey.stuff !== "storage") || (window.location.pathname==="/allremedes" && hey.stuff !== "remede") || (window.location.pathname==="/allmynews" && hey.stuff !== "news")){
-    continue;
- }
-
-                                                                              mypopup[i] = L.popup();
-									      latlng={
-										          "lat": Number(hey.lat),
-										          "lng": Number(hey.lon) 
-									      };
-									      console.log(latlng);
-	                                                                      mypopup[i]
-	                                                                          .setLatLng(latlng)
-	                                                                          .setContent("1 "+hey.stuff+" apparait sur la carte a " + latlng.lat+" "+latlng.lng+"("+hey.content+")")
-	                                                                          .openOn(macarte);
-									      icon=new LeafIcon({iconUrl: "/mypic/"+hey.stuff+".png"});
-	                                                                      mymarker = L.marker(latlng, {icon: icon}).bindPopup(mypopup[i]).addTo(macarte)
-								      }
-							      }
-						      });
 }
                                                                                                                                                                                                                   });

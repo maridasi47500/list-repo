@@ -227,7 +227,7 @@ else:
 
 with open("app.py", "a") as myfile:
     #myfile.write(addone.format(filename=filename,columns=columns,values=values)+lieu)
-    myfile.write(addone)
+    myfile.write(addone+lieu)
 with open("schema.sql", "a") as myfile:
     myfile.write(mystr.format(filename=filename))
 with open("templates/base.html", "a") as myfile:
@@ -242,7 +242,7 @@ if "lat" in items and "lon" in items:
 
      <div class="field">
 
-                                         <label for="monlieu1" >lieu</label>
+                                         <label for="monlieu1">lieu</label>
 
 
          <input type="text" name="lieu" id="monlieu1" placeholder="nom du lieu"/>

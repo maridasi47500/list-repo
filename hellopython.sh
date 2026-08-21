@@ -15,6 +15,7 @@ echo "`cat <<EOF
 __pycache__/
 database.db
 static/photos/
+scores/
 EOF`" > "/home/$USER/$1/.gitignore" 
 
 

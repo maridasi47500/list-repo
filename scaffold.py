@@ -53,7 +53,7 @@ while index < (len(items)):
           hasfile="yes"
       if ":references" in paramname: 
           referencesstr="yes"
-      paramname=items[index].replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
+      paramname=items[index].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
       print(items[(index+1)])
     except:
       myparam=""
@@ -70,13 +70,24 @@ while index < (len(items)):
     file_pointer = open("./samplescoreexample.ly")
     contents = file_pointer.read()
     contents=contents.replace("KEYSCOREHERE", request.form["key_signature"].replace(" "," \\")).replace("TIMESCOREHERE", request.form["time_signature"]).replace("CONTENTSCOREHERE", request.form["{columnname}"])
-    file_pointer = open("./scores/{tablename}_sample_"+mylastrowid+".ly", "w")
+    file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".ly", "w")
     file_pointer.write(contents)
     file_pointer.close()
-    file_pointer = open("./scores/{tablename}_sample_"+mylastrowid+".html", "w")
+    file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "w")
     file_pointer.write("<lilypond staffsize=34>"+contents+"</lilypond>")
     file_pointer.close()
-    subprocess.run(["lilypond-book", "scores/"+request.form["theme"]+"_sample_1.html", "-f", "html", "--output", "scores/samplescore"+request.form["theme"]]) """.format(tablename=filename,columnname=paramname)
+    subprocess.run(["lilypond-book", "scores/{tablename}_{columnname}_sample_1.html", "-f", "html", "--output", "scores/samplescore{tablename}_{columnname}"]) 
+
+    try:
+        f= open("scores/samplescore{tablename}_{columnname}/{tablename}_{columnname}_sample_1.html")
+        s = f.read()
+        soup = BeautifulSoup(s)
+        picvalue={"pic": soup.find_all('img')[0].get("src")}
+    except:
+        picvalue={"pic": ""}
+    hello_there = query_db("update {filename} set (pic) values (:pic)",picvalue, one=True)
+
+""".format(tablename=filename,columnname=paramname)
     if hasfile == "yes":
       myfieldtype="file"
       requestfiles+="""
@@ -148,7 +159,8 @@ addone+=requestfiles
 addone+=sqltousles
 
 addone+="""
-        one_user = query_db("insert into {filename} {columns} values {values}",hey)
+        one_user = query_db("insert into {filename} {columns} values {values}",hey, one=True)
+        mylastrowid=one_user["myid"]
         user = query_db('select * from {filename}')
 """
 addone+=mylastrowid
@@ -205,10 +217,10 @@ with open("templates/hey.html", "a") as myfile:
 
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
-        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div><label>username</label><input name=\"username\"/><div><label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
+        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div><label>username</label><input name=\"username\"/><div><label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
     

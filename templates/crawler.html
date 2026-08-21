@@ -32,11 +32,18 @@ to clone this repository disconnect server :
 <p>
 quelles bases de données veux tu ? (pour "user" il y a un login/sign in quand tu ajoute quelqu'un)(ajouter :file à coté du nom de colonne si c'est une iamge/video/text ou que tu ajoutes une pièce jointe (nom_colonne:file)), ajoute ":references" pour lier une table à une colonne avec la relation belongs to). Ajoute checkbox quand tu veux cases à cocher, et :radio quand tu veux un bouton radio, si tu appelles une colonne "email", "password", "telephone ou phone" , le champ sera automatiquement en type comme son nom, ecris un truc comme:
 </p>
+<p>tu peux essayer de faire apparaitre le champ avec ajouté ":staff" (portées de musique) si tu ajoute le champ "pic" (réservé pour l'image de la partition) et optionnellement, au moins dans le formulaire (caché ou  dans la base de données) le champ time_signature et key_signature</p>
+
 <p>
-nom_table1:checkbox nom_colonne1 nom_colonne2 nom_colonne3:file
+nom_table1 nom_colonne1:checkbox nom_colonne2  nom_colonne3:file password
 </p>
 <p>
-nom_table2 nom_colonne1:radio nom_colonne2_id:references nom_colonne3
+nom_table2 nom_colonne1:radio nom_colonne2_id:references nom_colonne3 email password
+</p>
+
+
+<p>
+nom_table3 nom_colonne1 nom_colonne2:file nom_colonne3:staff time_signature key_signature pic
 </p>
 <p>etc.</p>
 <form method="post">

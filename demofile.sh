@@ -1,12 +1,12 @@
 
 mkdir templates 
-python3 scaffold.py user username email password phone country_id:references
 python3 scaffold.py country name
-python3 scaffold.py dependency name  description
-python3 scaffold.py dependency_data dependency_id:references attribute value
-python3 scaffold.py package name description
-python3 scaffold.py package_data dependency_id:references attribute value
-python3 scaffold.py commandline_load_dependency user_id:references dependency_id:references datetime  terminal_console_id:references  datetime datetime_end complete:radio
-python3 scaffold.py commandline_load_package user_id:references package_id:references datetime complete:radio  terminal_console_id:references datetime_end
-python3 scaffold.py terminal_console lat lon  name
-python3 scaffold.py terminal_console_status status terminal_console_id:references user_id:references
+python3 scaffold.py user username email phone password country_id:references
+python3 scaffold.py city name country_id:references
+python3 scaffold.py destination budget city_id:references emotional_state
+python3 scaffold.py job name
+python3 scaffold.py set_yourself user_id:references what_you_re_great_at_doing
+python3 scaffold.py help_other advice_type user_id:references otheruser_id:references content
+python3 scaffold.py dreamjob user_id:references job_id:references
+python3 scaffold.py career_relationship user_id:references content
+python3 scaffold.py connectpeople user_id:references otheruser_id:references values emotional_goals

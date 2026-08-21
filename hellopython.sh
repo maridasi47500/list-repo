@@ -2,6 +2,7 @@
 export GITHUBUSERNAME="maridasi47500"
 mkdir -p "/home/$USER/$1/templates" 
 mkdir -p "/home/$USER/$1/static/css"
+mkdir -p "/home/$USER/$1/scores"
 mkdir -p "/home/$USER/$1/static/photos"
 touch "/home/$USER/$1/templates/base.html" 
 touch "/home/$USER/$1/templates/hey.html" 
@@ -111,12 +112,22 @@ def get_db():
 def query_db(query, args=(), one=False):
     mydb = get_db()
     cur = mydb.execute(query, args)
+    insert=""
     if "insert into" in query:
         mydb.commit()
+        insert="yes"
 
     rv = cur.fetchall()
+    try:
+        myid=cur.lastrowid
+    except:
+        myid=""
     cur.close()
-    return (rv[0] if rv else None) if one else rv
+    
+    if insert == "yes":
+        return {"myid": myid}
+    else:
+        return (rv[0] if rv else None) if one else rv
 
 
 
@@ -126,7 +137,9 @@ def query_db(query, args=(), one=False):
 
 EOF`" > "/home/$USER/$1/yourappdb.py"
 echo "`cat <<EOF
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
+from bs4 import BeautifulSoup
+import subprocess
 import os
 from yourappdb import query_db, get_db
 from flask import g

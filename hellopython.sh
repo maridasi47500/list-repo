@@ -209,6 +209,7 @@ EOF`" > "/home/$USER/$1/schema.sql"
 pwd
 cp ~/list-repo/samplescoreexample.ly "/home/$USER/$1"
 cp ~/list-repo/awesomemap.js "/home/$USER/$1"
+cp ~/list-repo/myplace.py "/home/$USER/$1"
 cp ~/list-repo/scaffold.py "/home/$USER/$1"
 cp ~/list-repo/hellopython.sh "/home/$USER/$1"
 cp ~/list-repo/demofile.sh "/home/$USER/$1"

@@ -2,7 +2,7 @@
 export GITHUBUSERNAME="maridasi47500"
 mkdir -p "/home/$USER/$1/templates" 
 mkdir -p "/home/$USER/$1/static/css"
-mkdir -p "/home/$USER/$1/scores"
+mkdir -p "/home/$USER/$1/static/scores"
 mkdir -p "/home/$USER/$1/static/photos"
 touch "/home/$USER/$1/templates/base.html" 
 touch "/home/$USER/$1/templates/hey.html" 
@@ -15,7 +15,7 @@ echo "`cat <<EOF
 __pycache__/
 database.db
 static/photos/
-scores/
+static/scores/
 EOF`" > "/home/$USER/$1/.gitignore" 
 
 
@@ -114,7 +114,8 @@ def query_db(query, args=(), one=False):
     mydb = get_db()
     cur = mydb.execute(query, args)
     insert=""
-    if "insert into" in query:
+    if "insert into" in query or ("update " in query and "set" in query):
+
         mydb.commit()
         insert="yes"
 

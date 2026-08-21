@@ -70,26 +70,28 @@ while index < (len(items)):
         file_pointer = open("./samplescoreexample.ly")
         contents = file_pointer.read()
         contents=contents.replace("KEYSCOREHERE", request.form["key_signature"].replace(" "," \\\\")).replace("TIMESCOREHERE", request.form["time_signature"]).replace("CONTENTSCOREHERE", request.form["{columnname}"])
-        file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".ly", "w")
+        file_pointer = open("./static/scores/{tablename}_{columnname}_sample_"+mylastrowid+".ly", "w")
         file_pointer.write(contents)
         file_pointer.close()
-        file_pointer = open("./scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "w")
+        file_pointer = open("./static/scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "w")
         file_pointer.write("<lilypond staffsize=34>"+contents+"</lilypond>")
         file_pointer.close()
-        subprocess.run(["lilypond-book", "scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "-f", "html", "--output", "scores/samplescore{tablename}_{columnname}"+mylastrowid]) 
+        subprocess.run(["lilypond-book", "static/scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "-f", "html", "--output", "static/scores/samplescore{tablename}_{columnname}"+mylastrowid]) 
 
         try:
-            f= open("scores/samplescore{tablename}_{columnname}"+mylastrowid+"/{tablename}_{columnname}_sample_"+mylastrowid+".html")
+            f= open("static/scores/samplescore{tablename}_{columnname}"+mylastrowid+"/{tablename}_{columnname}_sample_"+mylastrowid+".html")
             s = f.read()
             soup = BeautifulSoup(s)
 """.format(tablename=filename,columnname=paramname)
+
         mylastrowid+="""
-            picvalue={'pic': soup.find_all('img')[0].get("src"), 'id': mylastrowid}
+            picvalue=dict({'pic': "static/scores/samplescoremyscore_mymusic"+mylastrowid+"/"+soup.find('img').get("src"), 'id': mylastrowid})
         except:
-            picvalue={'pic': "", 'id': mylastrowid}
+            picvalue=dict({'pic': "", "id": mylastrowid})
+        print(picvalue)
 """
         mylastrowid+="""
-        hello_there = query_db("update {tablename} set pic=:pic where id = :id",picvalue, one=True)
+        hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
     if hasfile == "yes":
       myfieldtype="file"

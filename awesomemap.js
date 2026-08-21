@@ -57,6 +57,73 @@ const LeafIcon = L.Icon.extend({
 
 
                                                                                                                                                                                                       $(document).ready(function(){
+if (document.getElementById("loadmycity")){
+$('button#loadmycity').on('click', function () {
+    var fData = new FormData();
+    fData.append("job", monjob1.value);
+    fData.append("lieu", monlieu1.value);
+    fData.append("rayon", monrayon1.value);
+    fData.append("sendemail", "anonyme@email.com");
+    console.log("job", monjob1.value);
+    console.log("lieu", monlieu1.value);
+    console.log("rayon", monrayon1.value);
+    console.log("sendemail", "anonyme@email.com");
+    $.ajax({url:"/chercherjobcity",
+
+
+ type:"POST", 
+ data:fData,
+    cache: false,
+    contentType: false,
+    processData: false,
+
+success:function(data){
+    console.log(data);
+    maregion1.value=data.region;
+    var emplois=["departement","city","pays","region"];
+    var myjob={};
+
+    if (String(data["region"]) !== "undefined"){
+        autresoffres.innerHTML ="";
+        for (var y=0;y<emplois.length;y++){
+
+            if (myjob[data[emplois[y]]] === undefined) {
+                autresoffres.innerHTML +="<div onclick=\"chercherunjob.style.display='none';monjob1.value='';monlieu1.value='"+String(data[emplois[y]])+"';loadmycity.click();\" class=\"autreoption\">emploi à "+String(data[emplois[y]])+"</div>";
+            }
+            myjob[data[emplois[y]]]=emplois[y];
+        }
+        if (monjob1.value.length > 0){
+            autresoffres.innerHTML +="<div onclick=\"chercherunjob.style.display='none';monlieu1.value='';monjob1.value='"+String(monjob1.value)+"';loadmycity.click();\" class=\"autreoption\">emploi en "+String(monjob1.value)+"</div>";
+        }
+    }
+
+    maville1.value=data.ville;
+    monpays1.value=data.pays; 
+    moncode1.value=data.code;
+    malatitude1.value=data.latitude;
+    malongitude1.value=data.longitude;
+    if (String(data.region) !== "undefined"){
+    monadresse.innerHTML =String(data.region);
+    monadresse.innerHTML +=", "+String(data.city);
+    monadresse.innerHTML +=", "+String(data.pays);
+    monadresse.innerHTML +=", "+String(data.code);
+    monadresse.innerHTML +=", "+String(data.latitude);
+    monadresse.innerHTML +=", "+String(data.longitude);
+    }
+    if (String(data.region) !== "undefined") {
+       chercherunjob.style.display="block";
+    }else{
+       chercherunjob.style.display="none";
+    }
+    macarte.setView([parseFloat(data.latitude), parseFloat(data.longitude)], 5);
+
+
+    }});
+return false;
+});
+};
+
+
                                                                                                                                                                                                               initMap();
                                               if (window.location.pathname==="/" || window.location.pathname==="/add_one_{tablename}"){
 						      $.ajax({

@@ -212,10 +212,21 @@ def {filename}_login():
             return render_template("{filename}login.html")
     return render_template("{filename}login.html")
 """.format(filename=filename,mysession=mysession,columns=columns,values=values)
+if "lat" in items and "lon" in items:
 
+    lieu="""
+
+@app.route("/searchjobcity", methods=["POST"])
+def trouver_lieu_city():
+    leslieu=Myplace(request.form["lieu"]).trouver1()
+
+    return dict({"city":leslieu[0], "code":leslieu[1], "region":leslieu[3], "departement":leslieu[2], "pays":leslieu[2], "latitude":leslieu[4], "longitude":leslieu[5]})
+"""
+else:
+    lieu=""
 
 with open("app.py", "a") as myfile:
-    #myfile.write(addone.format(filename=filename,columns=columns,values=values))
+    #myfile.write(addone.format(filename=filename,columns=columns,values=values)+lieu)
     myfile.write(addone)
 with open("schema.sql", "a") as myfile:
     myfile.write(mystr.format(filename=filename))
@@ -223,7 +234,44 @@ with open("templates/base.html", "a") as myfile:
     myfile.write("<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename))
 
 if "lat" in items and "lon" in items:
-    maphtmlcode=("<div id=\"imap\"><div id=\"map\" style=\"height:200px;width:100%;\" onclick=\"onMapClick(event);\"><!-- Ici s'affichera la carte --></div>")
+    maphtmlcode="""
+<div id="monadresse">
+</div>
+<div id="autresoffres">
+</div>
+
+     <div class="field">
+
+                                         <label for="monlieu1" >lieu</label>
+
+
+         <input type="text" name="lieu" id="monlieu1" placeholder="nom du lieu"/>
+
+
+                 </div>
+
+                <button id="loadmycity" type="button">chercher l'adresse</button>
+
+<div id="chercherunjob" style="display:none;">
+la carte est bien là ou est l'offre d'emploi?
+</div>
+
+                                                        <input type="hidden" value="" id="maregion1" name="region" />
+                                                        <input type="hidden" value="" id="monpays1" name="pays" />
+
+
+        <input type="hidden" value="" id="moncode1" name="code" />
+
+
+        <input type="hidden" value="" id="maville1" name="ville" />
+
+
+        <input type="hidden" value="" id="monrayon1" name="rayon" />
+
+                                                         <input type="hidden" onchange="" name="job" value="informatique" id="monjob1" placeholder="nom du job"/>
+
+"""
+    maphtmlcode+=("<div id=\"imap\"><div id=\"map\" style=\"height:200px;width:100%;\" onclick=\"onMapClick(event);\"><!-- Ici s'affichera la carte --></div>")
     othermapjs=("{% block jsmap %}"+"<script src=\"https://code.jquery.com/jquery-4.0.0.js\" integrity=\"sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=\" crossorigin=\"anonymous\"></script><script src=\"/static/js/{filename}mymap.js\" type=\"text/javascript\"></script>".format(filename=filename)+"{% endblock %}")
 else:
     maphtmlcode=""
@@ -243,3 +291,5 @@ if "lat" in items and "lon" in items:
     f=mymap.read().replace("{tablename}", filename)
     with open("static/js/"+filename+"mymap.js", "w") as myfile:
         myfile.write(f)
+
+

@@ -24,6 +24,7 @@ myparam=","
 items=sys.argv
 referencesstr=""
 references=""
+
 mylastrowid="""
 """
 requestfiles="""
@@ -119,7 +120,7 @@ while index < (len(items)):
         sqltousles2+="""
     tousles{paramname}= query_db("select * from {paramname}")
 """.format(paramname=paramname.replace("_id",""))
-        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\"><option value=\"novalue\">no value</option>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\"><option value=\"novalue\">no value</option>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype,tablename=filename)
         formhtml+="\n{% "+"for some{paramname} in tousles{paramname}".format(myparam=myparam,paramname=paramname.replace("_id",""),mytype=myfieldtype)+" %}"
         formhtml+="\n<option value=\"{{ some"+paramname.replace("_id","")+"['id'] }}\">{{ some"+paramname.replace("_id","")+"['name'] }}</option>{% endfor %}"
         formhtml+="\n</select></div>"
@@ -129,7 +130,7 @@ while index < (len(items)):
     elif checkbox == "yes":
         formhtml+="\n<div class=\"field\"><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\" value=\"1\"/><label for=\"somefield{paramname}\">{paramname}</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
     else:
-        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
+        formhtml+="\n<div class=\"field\"><label for=\"somefield{tablename}{paramname}\">{paramname}</label><input type=\"{mytype}\" id=\"somefield{tablename}{paramname}\" name=\"{paramname}\"/></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
 
 
     mysession+="'{paramname}'{myparam}".format(myparam=myparam,paramname=paramname)
@@ -224,9 +225,109 @@ with open("templates/hey.html", "a") as myfile:
 
 with open("templates/"+filename+"form.html", "w") as myfile:
     myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
+with open("templates/"+filename+"form.html", "a") as myfile:
+    myfile.write("<script src=\"\/static\/js\/mymap{filename}.js\" type=\"text\/javascript\"></script>".format(filename=filename))
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
         myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
-    
+if "lat" in items and "lon" in items:
+ 
+mymap=""" 
+
+var theme = 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png';
+const LeafIcon = L.Icon.extend({
+			options: {
+							iconSize:     [95, 95],
+							shadowSize:   [50, 54],
+							iconAnchor:   [50, 50],
+							shadowAnchor: [50, 62],
+							popupAnchor:  [25, 25]
+						}
+		});
+
+    var lat = 8.619543;
+        var lon = 0.82;
+            var alt =481;
+                var macarte = null;
+                    //var trace = new Array();
+                        var i = 0;
+                            //var marker1;
+                                var markerClusters; // Servira à stocker les groupes de marqueurs
+                                    var popup = L.popup();
+                                      function initMap(){
+
+                                            // Nous définissons le dossier qui contiendra les marqueurs
+                                                  //var iconBase = 'img';
+                                                        // Créer l'objet "macarte" et l'insèrer dans l'élément HTML qui a l'ID "map"
+                                                              macarte = L.map('map').setView([lat, lon], 5);
+
+                                                                    markerClusters = L.markerClusterGroup; // Nous initialisons les groupes de marqueurs
+                                                                          // Leaflet ne récupère pas les cartes (tiles) sur un serveur par défaut. Nous devons lui préciser où nous souhaitons les récupérer. Ici, openstreetmap.fr
+                                                                                L.tileLayer(theme, {
+                                                                                          // Il est toujours bien de laisser le lien vers la source des données
+                                                                                                    //attribution: 'données © OpenStreetMap/ODbL - rendu OSM France',
+                                                                                                              minZoom: 1,
+                                                                                                                        maxZoom: 20
+                                                                                                                              }).addTo(macarte);
+                                                                                                                                    macarte.on('click', onMapClick);
+                                                                                                                                      }
+
+
+   function onMapClick(e) {
+"""
+mymap+="""
+           var mylat = document.getElementById("somefield{tablename}lat");
+           var mylon = document.getElementById("somefield{tablename}lon");
+
+"""
+mymap+="""
+	   if (document.getElementById("lat") && document.getElementById("lon")){
+	       popup
+	           .setLatLng(e.latlng)
+	           .setContent("You clicked the map at " + e.latlng.toString())
+	           .openOn(macarte);
+	       var marker = L.marker(e.latlng).addTo(macarte)
+	       mylat.value=e.latlng.lat;
+	       mylon.value=e.latlng.lng;
+	       console.log(e.latlng);
+	   }
+   }
+
+
+
+
+                                                                                                                                                                                                      $(document).ready(function(){
+                                                                                                                                                                                                              initMap();
+                                              if (window.location.pathname==="/" || window.location.pathname==="/alldatastorage" || window.location.pathname==="/allremedes" || window.location.pathname==="/allmynews"){
+						      $.ajax({
+							      url:"/voirtoutcequejaiajoute",
+							      success: function(data){
+								      var latlng,marker,tout=data.tout,hey,mypopup={},icon;
+								      for(var i=0;i<tout.length;i++){
+									      hey=tout[i];
+ if ((window.location.pathname==="/alldatastorage" && hey.stuff !== "storage") || (window.location.pathname==="/allremedes" && hey.stuff !== "remede") || (window.location.pathname==="/allmynews" && hey.stuff !== "news")){
+    continue;
+ }
+
+                                                                              mypopup[i] = L.popup();
+									      latlng={
+										          "lat": Number(hey.lat),
+										          "lng": Number(hey.lon) 
+									      };
+									      console.log(latlng);
+	                                                                      mypopup[i]
+	                                                                          .setLatLng(latlng)
+	                                                                          .setContent("1 "+hey.stuff+" apparait sur la carte a " + latlng.lat+" "+latlng.lng+"("+hey.content+")")
+	                                                                          .openOn(macarte);
+									      icon=new LeafIcon({iconUrl: "/mypic/"+hey.stuff+".png"});
+	                                                                      mymarker = L.marker(latlng, {icon: icon}).bindPopup(mypopup[i]).addTo(macarte)
+								      }
+							      }
+						      });
+}
+                                                                                                                                                                                                                  }); """
+
+    with open("static/js/"+filename+"mymap.js", "w") as myfile:
+        myfile.write(mymap)

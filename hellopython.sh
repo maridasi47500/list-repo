@@ -1,6 +1,7 @@
 #!/bin/bash
 export GITHUBUSERNAME="maridasi47500"
 mkdir -p "/home/$USER/$1/templates" 
+mkdir -p "/home/$USER/$1/static/js"
 mkdir -p "/home/$USER/$1/static/css"
 mkdir -p "/home/$USER/$1/static/scores"
 mkdir -p "/home/$USER/$1/static/photos"
@@ -43,6 +44,7 @@ echo "`cat <<EOF
 
 	<!-- note the special href for files in the Flask "static" folder -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 	<link rel="stylesheet" href="/static/css/main.css">
 
 </head>
@@ -58,6 +60,7 @@ echo "`cat <<EOF
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 </body>
 </html>

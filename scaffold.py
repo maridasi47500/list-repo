@@ -222,11 +222,16 @@ with open("schema.sql", "a") as myfile:
 with open("templates/hey.html", "a") as myfile:
     myfile.write("<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename))
 
+if "lat" in items and "lon" in items:
+    maphtmlcode=("<div id=\"imap\"><div id=\"map\" style=\"height:200px;width:100%;\" onclick=\"onMapClick(event);\"><!-- Ici s'affichera la carte --></div>")
+    othermapjs=("{% block jsmap %}<script src=\"\/static\/js\/mymap{filename}.js\" type=\"text\/javascript\"></script>{% endblock %}".format(filename=filename))
+else:
+    maphtmlcode=""
+    othermapjs=""
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}")
-with open("templates/"+filename+"form.html", "a") as myfile:
-    myfile.write("<script src=\"\/static\/js\/mymap{filename}.js\" type=\"text\/javascript\"></script>".format(filename=filename))
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
+
 
 
 if filename == "user":
@@ -234,7 +239,7 @@ if filename == "user":
         myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
 if "lat" in items and "lon" in items:
  
-mymap=""" 
+    mymap=""" 
 
 var theme = 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png';
 const LeafIcon = L.Icon.extend({
@@ -300,7 +305,11 @@ mymap+="""
 
                                                                                                                                                                                                       $(document).ready(function(){
                                                                                                                                                                                                               initMap();
-                                              if (window.location.pathname==="/" || window.location.pathname==="/alldatastorage" || window.location.pathname==="/allremedes" || window.location.pathname==="/allmynews"){
+"""
+mymap+="""
+                                              if (window.location.pathname==="/" || window.location.pathname==="/add_one_{tablename}"){
+""".format(tablename=filename)
+mymap+="""
 						      $.ajax({
 							      url:"/voirtoutcequejaiajoute",
 							      success: function(data){

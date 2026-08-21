@@ -210,6 +210,7 @@ pwd
 cp ~/list-repo/samplescoreexample.ly "/home/$USER/$1"
 cp ~/list-repo/awesomemap.js "/home/$USER/$1"
 cp ~/list-repo/myplace.py "/home/$USER/$1"
+cp ~/list-repo/fichier.py "/home/$USER/$1"
 cp ~/list-repo/scaffold.py "/home/$USER/$1"
 cp ~/list-repo/hellopython.sh "/home/$USER/$1"
 cp ~/list-repo/demofile.sh "/home/$USER/$1"
@@ -229,7 +230,7 @@ cp ~/list-repo/demofile.sh "/home/$USER/$1"
 (cd /home/$USER/$1 && git commit -am 'wow dljfghsfj')
 
 
-(cd /home/$USER/$1 && rm ~/list-repo/awesomemap.js)
-(cd /home/$USER/$1 && rm ~/list-repo/hellopython.sh)
-(cd /home/$USER/$1 && rm ~/list-repo/demofile.sh)
+(cd /home/$USER/$1 && rm awesomemap.js)
+(cd /home/$USER/$1 && rm hellopython.sh)
+(cd /home/$USER/$1 && rm demofile.sh)
 (cd /home/$USER/$1 && git push origin main)

@@ -84,12 +84,12 @@ while index < (len(items)):
             soup = BeautifulSoup(s)
 """.format(tablename=filename,columnname=paramname)
         mylastrowid+="""
-            picvalue={'pic': soup.find_all('img')[0].get("src")}
+            picvalue={'pic': soup.find_all('img')[0].get("src"), 'id': mylastrowid}
         except:
-            picvalue={'pic': ""}
+            picvalue={'pic': "", 'id': mylastrowid}
 """
         mylastrowid+="""
-        hello_there = query_db("update {tablename} set pic=:pic",picvalue, one=True)
+        hello_there = query_db("update {tablename} set pic=:pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
     if hasfile == "yes":
       myfieldtype="file"

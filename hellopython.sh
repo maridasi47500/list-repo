@@ -225,8 +225,9 @@ cp ~/list-repo/demofile.sh "/home/$USER/$1"
 (cd /home/$USER/$1 && sh demofile.sh)
 (cd /home/$USER/$1 && git add .)
 (cd /home/$USER/$1 && git commit -am 'wow dljfghsfj')
-(cd /home/$USER/$1 && git push origin main)
+
 
 (cd /home/$USER/$1 && rm ~/list-repo/awesomemap.js)
 (cd /home/$USER/$1 && rm ~/list-repo/hellopython.sh)
 (cd /home/$USER/$1 && rm ~/list-repo/demofile.sh)
+(cd /home/$USER/$1 && git push origin main)

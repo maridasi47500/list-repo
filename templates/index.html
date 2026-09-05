@@ -18,8 +18,16 @@ page number
 <a href="/?username={{ username }}&pageno={{ pageno | int + 1 }}">{{ pageno | int + 1 }}---></a>
 <h2> repos for {{ username }}</h2>
 {% for x in repos %}
+
 <li>
+{% if (x["size"] | int) < 50 %}
+<b>
+{% endif%}
 <a target="_blank" href="/crawler?username={{ username }}&repo={{ x["name"] }}&pageno={{ pageno }}">{{ x["name"] }} (<i>{{ x["language"] }}</i>, size: <i>{{ x["size"] }}</i>)</a><br><span style="font-size:14px;">{{ x["description"] }} 
 </span>
+{% if (x["size"] | int) < 50 %}
+</b>
+{% endif%}
 </li>
+
 {% endfor%}

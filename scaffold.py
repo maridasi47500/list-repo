@@ -5,8 +5,7 @@ import os
 print(sys.argv[1])
 
 
-filename=sys.argv[1].lower()
-myclass=(filename).capitalize()
+filename=sys.argv[1].lower() myclass=(filename).capitalize()
 modelname=(filename).capitalize()
 marouteget="\"/%s\"" % filename
 maroutenew="\"/%s_new\"" % filename
@@ -41,10 +40,16 @@ while index < (len(items)):
       referencesstr=""
       checkbox=""
       staff=""
+      maquille=""
+      recognize_face=""
       radiobutton=""
       paramname=items[index]
+      if ":recognize_face" in paramname: 
+          recognize_face="yes"
       if ":staff" in paramname: 
           staff="yes"
+      if ":maquille" in paramname: 
+          maquille="yes"
       if ":checkbox" in paramname: 
           checkbox="yes"
       if ":radio" in paramname: 
@@ -54,7 +59,7 @@ while index < (len(items)):
           hasfile="yes"
       if ":references" in paramname: 
           referencesstr="yes"
-      paramname=items[index].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
+      paramname=items[index].replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
       print(items[(index+1)])
     except:
       myparam=""
@@ -62,6 +67,8 @@ while index < (len(items)):
     myfieldtype="text"
     if radiobutton == "yes":
         myfieldtype="radio"
+    if maquille == "yes":
+        myfieldtype="file"
     if staff == "yes":
         myfieldtype="textarea"
     if checkbox == "yes":
@@ -94,6 +101,16 @@ while index < (len(items)):
         mylastrowid+="""
         hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
+    if maquille == "yes":
+      myfieldtype="file"
+      requestfiles+="""
+        uploaded_file = request.files['{paramname}']
+        if uploaded_file.filename != '':
+            uploaded_file.save(os.path.join('static/photos', uploaded_file.filename))
+        x=Maquille(uploaded_file.filename).find_landmarks()
+
+        hey["{paramname}"]=uploaded_file.filename
+""".format(paramname=paramname)
     if hasfile == "yes":
       myfieldtype="file"
       requestfiles+="""
@@ -112,6 +129,27 @@ while index < (len(items)):
         
 
 
+    if recognize_face == "yes":
+        sqltousles+="""
+        knownpic{paramname}= []
+        findpic{paramname}= query_db("select x.pic from {paramname} x where id = ?", [request.form["{paramname}_id"]], one=True)
+        #findpic{paramname}= query_db("select x.pic from {paramname} x ) #optional compare photo with all users from the relational table
+        #for x in findpic{paramname}:
+        #    knownpic{paramname}.append(x["pic"])
+
+        knownpic{paramname}.append([findpic{paramname}["pic"]])
+        unknownpic=request.form["pic"]
+        x=FaceRecognize(knownpic{paramname}, unknownpic).get_results()
+        hey["recognized_face"]=str(x)
+
+""".format(paramname=paramname.replace("_id",""), tablename=filename)
+        sqltousles2+="""
+    tousles{paramname}= query_db("select * from {paramname}")
+""".format(paramname=paramname.replace("_id",""))
+        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><select id=\"somefield{paramname}\" name=\"{paramname}\"><option value=\"novalue\">no value</option>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype,tablename=filename)
+        formhtml+="\n{% "+"for some{paramname} in tousles{paramname}".format(myparam=myparam,paramname=paramname.replace("_id",""),mytype=myfieldtype)+" %}"
+        formhtml+="\n<option value=\"{{ some"+paramname.replace("_id","")+"['id'] }}\">{{ some"+paramname.replace("_id","")+"['name'] }}</option>{% endfor %}"
+        formhtml+="\n</select></div>"
     if referencesstr == "yes":
         references+=", tousles{paramname}=tousles{paramname}".format(paramname=paramname.replace("_id",""))
         sqltousles+="""
@@ -278,13 +316,13 @@ else:
     othermapjs=""
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
 
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
-        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
+        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
 if "lat" in items and "lon" in items:
  
     mymap=open("./awesomemap.js","r")

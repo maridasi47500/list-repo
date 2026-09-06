@@ -5,7 +5,8 @@ import os
 print(sys.argv[1])
 
 
-filename=sys.argv[1].lower() myclass=(filename).capitalize()
+filename=sys.argv[1].lower() 
+myclass=(filename).capitalize()
 modelname=(filename).capitalize()
 marouteget="\"/%s\"" % filename
 maroutenew="\"/%s_new\"" % filename
@@ -40,10 +41,13 @@ while index < (len(items)):
       referencesstr=""
       checkbox=""
       staff=""
+      sunglasses=""
       maquille=""
       recognize_face=""
       radiobutton=""
       paramname=items[index]
+      if ":sunglasses" in paramname: 
+          sunglasses="yes"
       if ":recognize_face" in paramname: 
           recognize_face="yes"
       if ":staff" in paramname: 
@@ -59,7 +63,7 @@ while index < (len(items)):
           hasfile="yes"
       if ":references" in paramname: 
           referencesstr="yes"
-      paramname=items[index].replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
+      paramname=items[index].replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
       print(items[(index+1)])
     except:
       myparam=""
@@ -101,6 +105,21 @@ while index < (len(items)):
         mylastrowid+="""
         hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
+    if sunglasses == "yes":
+      myfieldtype="file"
+      requestfiles+="""
+        uploaded_file = request.files['{paramname}']
+        if uploaded_file.filename != '':
+            uploaded_file.save(os.path.join('static/photos', uploaded_file.filename))
+
+
+
+        hey["{paramname}"]=uploaded_file.filename
+        try:
+            x=subprocess.Popen(["/usr/bin/python3.8","addsunglasses.py",hey["paramname"]])
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
+""".format(paramname=paramname)
     if maquille == "yes":
       myfieldtype="file"
       requestfiles+="""
@@ -316,13 +335,13 @@ else:
     othermapjs=""
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
 
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
-        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
+        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
 if "lat" in items and "lon" in items:
  
     mymap=open("./awesomemap.js","r")

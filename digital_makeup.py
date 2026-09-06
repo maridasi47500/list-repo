@@ -4,7 +4,8 @@ import face_recognition
 # Load the jpg file into a numpy array
 class Maquille():
     def __init__(self, photo):
-        self.image = face_recognition.load_image_file("./static/photos/"+photo)
+        self.image_save = "./static/photos/"+photo
+        self.image = face_recognition.load_image_file(self.image_save)
 
 # Find all facial features in all the faces in the image
     def find_landmarks(self):
@@ -35,3 +36,4 @@ class Maquille():
             d.line(face_landmarks['right_eye'] + [face_landmarks['right_eye'][0]], fill=(0, 0, 0, 110), width=6)
         
             pil_image.show()
+        pil_image.save(self.image_save)

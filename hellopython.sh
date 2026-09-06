@@ -146,6 +146,7 @@ EOF`" > "/home/$USER/$1/yourappdb.py"
 echo "`cat <<EOF
 from flask import Flask, render_template, request, session, redirect
 from digital_makeup import Maquille
+from face_recognize import FaceRecognize
 from myplace import Myplace
 from bs4 import BeautifulSoup
 import subprocess
@@ -210,6 +211,9 @@ EOF`" > "/home/$USER/$1/schema.sql"
 pwd
 cp ~/list-repo/samplescoreexample.ly "/home/$USER/$1"
 cp ~/list-repo/awesomemap.js "/home/$USER/$1"
+cp ~/list-repo/face_recognize.py "/home/$USER/$1"
+cp ~/list-repo/digital_makeup.py "/home/$USER/$1"
+cp ~/list-repo/addsunglasses.py "/home/$USER/$1"
 cp ~/list-repo/myplace.py "/home/$USER/$1"
 cp ~/list-repo/fichier.py "/home/$USER/$1"
 cp ~/list-repo/scaffold.py "/home/$USER/$1"

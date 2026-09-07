@@ -116,7 +116,7 @@ while index < (len(items)):
 
         hey["{paramname}"]=uploaded_file.filename
         try:
-            x=subprocess.Popen(["/usr/bin/python3.8","addsunglasses.py",hey["paramname"]])
+            x=subprocess.Popen(["/usr/bin/python3.8","addsunglasses.py",hey["{paramname}"]])
         except Exception as e:
             print("ereeeuuuuur!!! ooowow!",e)
 """.format(paramname=paramname)

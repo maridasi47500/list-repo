@@ -120,7 +120,9 @@ split('.')[-1]
 
         hey["{paramname}"]=myfilename
         try:
-            x=subprocess.Popen(["/usr/bin/python3.8","addsunglasses.py",hey["{paramname}"]])
+            #x=subprocess.Popen(["/usr/bin/python3.9","addsunglasses.py",hey["{paramname}"]])
+            x=subprocess.check_output(["~/miniconda3/bin/python3","addsunglasses.py",hey["pic"]])
+
         except Exception as e:
             print("ereeeuuuuur!!! ooowow!",e)
 """.format(paramname=paramname)

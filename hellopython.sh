@@ -145,6 +145,8 @@ def query_db(query, args=(), one=False):
 EOF`" > "/home/$USER/$1/yourappdb.py"
 echo "`cat <<EOF
 from flask import Flask, render_template, request, session, redirect
+import string
+import random
 from digital_makeup import Maquille
 from face_recognize import FaceRecognize
 from myplace import Myplace

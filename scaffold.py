@@ -109,12 +109,16 @@ while index < (len(items)):
       myfieldtype="file"
       requestfiles+="""
         uploaded_file = request.files['{paramname}']
+        char_set = string.ascii_uppercase + string.digits
+        myfilename=''.join(random.sample(char_set*6, 8))+"."+uploaded_file.filename.
+split('.')[-1]
+
         if uploaded_file.filename != '':
-            uploaded_file.save(os.path.join('static/photos', uploaded_file.filename))
+            uploaded_file.save(os.path.join('static/photos', myfilename))
 
 
 
-        hey["{paramname}"]=uploaded_file.filename
+        hey["{paramname}"]=myfilename
         try:
             x=subprocess.Popen(["/usr/bin/python3.8","addsunglasses.py",hey["{paramname}"]])
         except Exception as e:
@@ -149,15 +153,17 @@ while index < (len(items)):
 
 
     if recognize_face == "yes":
+        references+=", tousles{paramname}=tousles{paramname}".format(paramname=paramname.replace("_id",""))
         sqltousles+="""
+        tousles{paramname}= query_db("select * from {paramname}")
         knownpic{paramname}= []
-        findpic{paramname}= query_db("select x.pic from {paramname} x where id = ?", [request.form["{paramname}_id"]], one=True)
+        findpic{paramname}= query_db("select x.pic from {paramname} x where x.id = ?", [request.form["{paramname}_id"]], one=True)
         #findpic{paramname}= query_db("select x.pic from {paramname} x ) #optional compare photo with all users from the relational table
         #for x in findpic{paramname}:
         #    knownpic{paramname}.append(x["pic"])
 
-        knownpic{paramname}.append([findpic{paramname}["pic"]])
-        unknownpic=request.form["pic"]
+        knownpic{paramname}.append(findpic{paramname}["pic"])
+        unknownpic=hey["pic"]
         x=FaceRecognize(knownpic{paramname}, unknownpic).get_results()
         hey["recognized_face"]=str(x)
 

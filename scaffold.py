@@ -109,7 +109,7 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.append(x.replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.append(x.replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 references=""
@@ -132,6 +132,13 @@ while index < (len(items)):
       staff=""
       sunglasses=""
       find_email_phone=""
+      color=""
+      myemail=""
+      mypassword=""
+      mydate=""
+      mytime=""
+      hidden=""
+      mydatetime=""
       maquille=""
       recognize_face=""
       textarea=""
@@ -139,6 +146,22 @@ while index < (len(items)):
       detect_language=""
       radiobutton=""
       paramname=items[index]
+      if ":email" in paramname: 
+
+          myemail="yes"
+      if ":hidden" in paramname: 
+          hidden="yes"
+      if ":color" in paramname: 
+          color="yes"
+      if ":date" in paramname: 
+          mydate="yes"
+      if ":time" in paramname: 
+          mytime="yes"
+      if ":datetime" in paramname: 
+          mydatetime="yes"
+      if ":password" in paramname: 
+          mypassword="yes"
+
       if ":detect_language" in paramname: 
           detect_language="yes"
       if ":detect_programming_language" in paramname: 
@@ -176,6 +199,20 @@ while index < (len(items)):
         myfieldtype="textarea"
     if maquille == "yes":
         myfieldtype="file"
+    if hidden == "yes":
+        myfieldtype="hidden"
+    if mydatetime == "yes":
+        myfieldtype="datetime"
+    if mytime == "yes":
+        myfieldtype="time"
+    if myemail == "yes":
+        myfieldtype="email"
+    if mypassword == "yes":
+        myfieldtype="password"
+    if mydate == "yes":
+        myfieldtype="date"
+    if color == "yes":
+        myfieldtype="color"
     if staff == "yes":
         myfieldtype="textarea"
     if checkbox == "yes":

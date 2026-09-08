@@ -43,6 +43,130 @@ si tu ajoutes :maquille, on demande une image et elle est maquillée.
 Si tu as une table avec une colonne :pic où tu ajoute à une autre colonne comme user_id:recognize_face, et la table user a la colonne reservee pic, et une colonne face_recognized:radio dans la meme table pour ecrire si elle est reconnue, il faut proposer une nouvelle photo .
 </p>
 <p>
+avec pip install codelang-detect
+
+Usage
+As a Python Library
+si tu ajoutes :detect_programming_language à une colonne, tu dois avoir une autre colonne programminglanguage_id: reservee et une table programminglanguage, la valeur de la colonne est modifiee.
+</p>
+
+
+<p>
+from codelang_detect import detect
+python detecte le langae de programmation, langdetect, python detecte la langue que tu parles, traduires en une langue , .
+Ajoute :detect_language et tu dois avoir une autre colonne language_id, la valeur de la colonne language_id est modifiee
+</p>
+<p>
+vaec une colonne did_you_mean, python peut ecrire les choses pas bien epelee , ti tu ajoutes :did_you_mean à une colonne tu dois avoir une colonne did_you_mean pour la remplir avec le texte bien épelé ou ce qu'il faut modifier
+
+</p>
+<p>
+ajoute :speech_to_text à une colonne ou normalement tu prends une musique/un son, et tu dois avoir une colonne language_id pour te dire quelle langue c'est et tu recupere le texte de l'enregistrement dans la colonne mytext
+</p>
+<p>
+ajoute :send_email à une colonne où il y a le destinataire/body/sender/subject du message, il doit y avoir les Trois autres colonnes, ca doit envoyer le message
+</p>
+<p>
+ajoute :send_email_musical à une colonne où il y a le destinataire/body/sender/subject du message dans une meme table ou il y a des colonnes time_signature, key_signature, pic, :staff, , il doit y avoir les Trois autres colonnes, ca doit envoyer le message avec l'image des notes de musique
+</p>
+<p>
+ajoute :find_email_phone à une colonne, ça doit trouver les emails et les ajouter dans la colonne mytext/text_found
+</p>
+<p>
+ajoute :find_organization_group à une colonne, ça doit trouver les organization/groupe/cities/companies et les ajouter dans la colonne mytext/text_found
+</p>
+<p>
+ajoute :word_tokenize à une colonne, ça doit word tonekize
+</p>
+<p>
+ajoute :remove_punctuation à une colonne, ça doit elever les punctuation
+</p>
+<p>
+ajoute :sentiment à une colonne, ça doit ecrire dans la colonne mytext, text_found ou mysentiment si c'est positif ou negatif
+</p>
+<p>
+ajoute :image_to_text à une colonne ou normalement tu prends une image/PHOTO, et tu dois avoir une colonne language_id pour te dire quelle langue c'est et tu recupere le texte de l'image dans la colonne mytext
+</p>
+<p>
+Ajoute :translated_to à une colonne et tu dois avoir une autre colonne language_id, la valeur de la colonne ou tu as ajouté translated_to est traduite dans la langue de la collone language_id dans la colonne translated_text ou mytext (tu dois avoir une colonne translated_text ou mytext), la table language a deux colonne name et short_name. 
+</p>
+<p>
+tu ajoutes :object à une colonne qui s'appelle comme object_id de la table object_pic avec les colonnes  pic, nombre, tu trouves une photo avec un stop  pour detecter des objets
+</p>
+<p>
+ajoute :check_word_programmatically à une colonne et tu fais une autre olonne qui s'appelle document ou my text et tu regarde 
+# import library
+<code>
+	<br>import PyPDF2
+	<br>
+	<br># use PDFreader from PyPDF2 to read pdf content.
+	<br>pdf_reader = PyPDF2.PdfReader("Relationships_.pdf")
+	<br>
+	<br># join all the content in the pdf pages together and lowercase the letters
+	<br>pdf_document = " ".join([page.extract_text().lower() for page in pdf_reader.pages])
+	<br>
+	<br># check if the string 'sea' is in the document [Returns True or False]
+	<br>"sea" in pdf_document
+</code>
+
+</p>
+
+<p>
+To install everything using Pip, type the following command:
+
+// to install with pip
+pip install pypdf2 keybert sentence-transformers
+# import library
+<code>
+	<br>from sentence_transformers import SentenceTransformer # sentence transformer
+	<br>from sentence_transformers.util import cos_sim # cosine similarity
+	<br>
+	<br># initialize sentence transformer with the 'all-mpnet-base-v2' model
+	<br>model = SentenceTransformer("all-mpnet-base-v2")
+	<br>from keybert import KeyBERT
+	<br># initialize model
+	<br>keybert_model =  KeyBERT()
+	<br>
+	<br># extract all keywords (single word and 2 word phrase) from the pdf
+	<br>all_keywords = keybert_model.extract_keywords(docs=pdf_document, top_n=-1, keyphrase_ngram_range=(1, 2))
+	<br># print length of keywords extracted
+	<br>print(len(all_keywords))
+	<br># show the first 5 keywords
+	<br>print(all_keywords[:5])
+	<br># remove score from each keyword
+	<br>
+	<br>all_keywords = [keyword[0] for keyword in all_keywords]
+	<br>all_keywords[:5]
+	<br># initialize sentence transformer with the 'all-mpnet-base-v2' model
+	<br>model = SentenceTransformer("all-mpnet-base-v2")
+	<br>
+	<br># get the embedding of the 'birth control' phrase
+	<br>birth_control_embedding = model.encode("sea")
+	<br>
+	<br># get the embedding of all the keywords in the document
+	<br>keywords_embedding =  model.encode(all_keywords)
+	<br># calculate the cosine similarity of the birth control word and each word in the document
+	<br>cosine_similarity_result = cos_sim(birth_control_embedding, keywords_embedding)
+	<br># print the shape (equal to the number of keywords)
+	<br>print(cosine_similarity_result.shape)
+	<br># show the top 5 similarities
+	<br>print(cosine_similarity_result[:5])
+	<br># return the index number of the high similarity score
+	<br>index = cosine_similarity_result.argmax()
+	<br>print(index)
+	<br># print the keyword at index 1490
+	<br>print(all_keywords[index])
+	<br># extract the top 5 indices
+	<br>top_5_indices = cosine_similarity_result.topk(5)[1].tolist()[0]
+	<br>
+	<br>print(top_5_indices)
+	<br># get top 5 keywords
+	<br>top_5_keywords = [all_keywords[index] for index in top_5_indices]
+	<br>print(top_5_keywords)
+</code>
+
+</p>
+<p>
 nom_table1 nom_colonne1:checkbox nom_colonne2  nom_colonne3:file password
 </p>
 <p>

@@ -22,6 +22,10 @@ values="("
 mysession="["
 myparam=","
 items=sys.argv
+normalitems=[]
+for x in items:
+    normalitems.append(x.replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+myfavouriteitem=normalitems[2]
 referencesstr=""
 references=""
 
@@ -63,7 +67,7 @@ while index < (len(items)):
           hasfile="yes"
       if ":references" in paramname: 
           referencesstr="yes"
-      paramname=items[index].replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")
+      paramname=normalitems[index]
       print(items[(index+1)])
     except:
       myparam=""
@@ -343,13 +347,13 @@ else:
     othermapjs=""
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+myfavouriteitem+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
 
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
-        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+items[2].replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references","")+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
+        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+myfavouriteitem+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
 if "lat" in items and "lon" in items:
  
     mymap=open("./awesomemap.js","r")

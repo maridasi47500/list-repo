@@ -23,8 +23,93 @@ mysession="["
 myparam=","
 items=sys.argv
 normalitems=[]
+languages={
+  "af": "Afrikaans",
+  "ar": "Arabic",
+  "bg": "Bulgarian",
+  "bn": "Bengali",
+  "ca": "Catalan",
+  "cs": "Czech",
+  "cy": "Welsh",
+  "da": "Danish",
+  "de": "German",
+  "el": "Greek",
+  "en": "English",
+  "es": "Spanish",
+  "et": "Estonian",
+  "fa": "Farsi",
+  "fi": "Finnish",
+  "fr": "French",
+  "gu": "Gujarati",
+  "he": "Hebrew",
+  "hi": "Hindi",
+  "hr": "Croatian",
+  "hu": "Hungarian",
+  "id": "Indonesian",
+  "it": "Italian",
+  "ja": "Japanese",
+  "kn": "Kannada",
+  "ko": "Korean",
+  "lt": "Lithuanian",
+  "lv": "Latvian",
+  "mk": "FYRO Macedonian",
+  "ml": "Mali",
+  "mr": "Marathi",
+  "ne": "Nepali",
+  "nl": "Dutch",
+  "no": "Norwegian",
+  "pa": "Punjabi",
+  "pl": "Polish",
+  "pt": "Portuguese",
+  "ro": "Romanian",
+  "ru": "Russian",
+  "sk": "Slovak",
+  "sl": "Slovenian",
+  "so": "Somali language",
+  "sq": "Albanian",
+  "sv": "Swedish",
+  "sw": "Swahili",
+  "ta": "Tamil",
+  "te": "Telugu",
+  "th": "Thai",
+  "tl": "Tagalog",
+  "tr": "Turkish",
+  "uk": "Ukrainian",
+  "ur": "Urdu",
+  "vi": "Vietnamese",
+  "zh-cn": "Chinese (China)",
+  "zh-tw": "Chinese Taiwan"
+}
+programmingl={
+  "c": "C ",
+  "cpp": "C++ ",
+  "cs": "C# ",
+  "cbl": "COBOL ",
+  "css": "CSS ",
+  "dart": "Dart ",
+  "go": "Go ",
+  "groovy": "Groovy ",
+  "html": "HTML ",
+  "java": "Java ",
+  "js": "JavaScript ",
+  "json": "JSON ",
+  "kt": "Kotlin ",
+  "php": "PHP ",
+  "py": "Python ",
+  "r": "R ",
+  "rb": "Ruby ",
+  "rs": "Rust ",
+  "scala": "Scala ",
+  "sh": "Shell ",
+  "sol": "Solidity ",
+  "sql": "SQL ",
+  "swift": "Swift ",
+  "ts": "TypeScript ",
+  "xml": "XML ",
+  "yaml": "YAML "
+}
 for x in items:
-    normalitems.append(x.replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.append(x.replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 references=""
@@ -46,10 +131,20 @@ while index < (len(items)):
       checkbox=""
       staff=""
       sunglasses=""
+      find_email_phone=""
       maquille=""
       recognize_face=""
+      textarea=""
+      detect_programming_language=""
+      detect_language=""
       radiobutton=""
       paramname=items[index]
+      if ":detect_language" in paramname: 
+          detect_language="yes"
+      if ":detect_programming_language" in paramname: 
+          detect_programming_language="yes"
+      if ":find_email_phone" in paramname: 
+          find_email_phone="yes"
       if ":sunglasses" in paramname: 
           sunglasses="yes"
       if ":recognize_face" in paramname: 
@@ -58,6 +153,8 @@ while index < (len(items)):
           staff="yes"
       if ":maquille" in paramname: 
           maquille="yes"
+      if ":textarea" in paramname: 
+          textarea="yes"
       if ":checkbox" in paramname: 
           checkbox="yes"
       if ":radio" in paramname: 
@@ -75,6 +172,8 @@ while index < (len(items)):
     myfieldtype="text"
     if radiobutton == "yes":
         myfieldtype="radio"
+    if textarea == "yes":
+        myfieldtype="textarea"
     if maquille == "yes":
         myfieldtype="file"
     if staff == "yes":
@@ -109,6 +208,34 @@ while index < (len(items)):
         mylastrowid+="""
         hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
+    if detect_programming_language=="yes":
+      myfieldtype="textarea"
+      requestfiles+="""
+
+
+        myprog=detectspokenlanguage(hey["{paramname}"])
+
+        try:
+            hey["language_id"]=query_db("select x.id from language x where x.short_name = ?", [myprog], one=True)["id"]
+            print(detect_langs(hey["{paramname}"]))
+
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
+""".format(paramname=paramname)
+    if detect_programming_language=="yes":
+      myfieldtype="textarea"
+      requestfiles+="""
+
+
+        myprog=detectprogramminglanguage(hey["{paramname}"])
+
+        try:
+            hey["programminglanguage_id"]=query_db("select x.id from programminglanguage x where x.short_name = ?", [myprog], one=True)["id"]
+            #hey["programming_language_id"]=query_db("select x.id from programming_language x where x.short_name = ?", [myprog], one=True)["id"]
+
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
+""".format(paramname=paramname)
     if sunglasses == "yes":
       myfieldtype="file"
       requestfiles+="""
@@ -129,6 +256,16 @@ split('.')[-1]
 
         except Exception as e:
             print("ereeeuuuuur!!! ooowow!",e)
+""".format(paramname=paramname)
+    if find_email_phone == "yes":
+      myfieldtype="textarea"
+      requestfiles+="""
+      email = re.findall(r'\S+@\S+', hey["{paramname}"])
+
+      phone = re.findall(r'\d{10}', hey["{paramname}"])
+      
+      print("Email:", email)
+      print("Phone:", phone)
 """.format(paramname=paramname)
     if maquille == "yes":
       myfieldtype="file"
@@ -194,6 +331,8 @@ split('.')[-1]
         formhtml+="\n<option value=\"{{ some"+paramname.replace("_id","")+"['id'] }}\">{{ some"+paramname.replace("_id","")+"['name'] }}</option>{% endfor %}"
         formhtml+="\n</select></div>"
 
+    elif myfieldtype == "textarea":
+        formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><textarea id=\"somefield{paramname}1\" name=\"{paramname}\"></textarea>\n</div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
     elif radiobutton == "yes":
         formhtml+="\n<div class=\"field\"><label for=\"somefield{paramname}\">{paramname}</label><label for=\"somefield{paramname}1\"><input type=\"{mytype}\" id=\"somefield{paramname}1\" name=\"{paramname}\" value=\"1\"/>yes</label>\n<label for=\"somefield{paramname}2\"><input type=\"{mytype}\" id=\"somefield{paramname}2\" name=\"{paramname}\" value=\"0\"/>no</label></div>".format(myparam=myparam,paramname=paramname,mytype=myfieldtype)
     elif checkbox == "yes":
@@ -219,6 +358,14 @@ mystr+="  , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
 
 mystr+="""                );
 """
+if filename == "language" or name == "languages":
+    for x in languages:
+        mystr+="""         insert into {filename} (name, short_name) values ("{name}", "{shortname}");
+""".format(filanem=filename, name=languages[x], shortname=x);
+if filename == "programminglanguage" or filename == "programming_language":
+    for x in programmingl:
+        mystr+="""         insert into {filename} (name, short_name) values ("{name}", "{shortname}");
+""".format(filanem=filename, name=programmingl[x], shortname=x);
 selectall= "select * from {filename}"
 
 delete="""delete from {filename} where id = ?",(myid,)"""
@@ -347,13 +494,13 @@ else:
     othermapjs=""
 
 with open("templates/"+filename+"form.html", "w") as myfile:
-    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+myfavouriteitem+"\"] }}{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
+    myfile.write("{% extends 'base.html' %}{% block content %}"+formhtml+"<div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}<p class=\"my"+myfavouriteitem+"\">{{"+ "x[\""+myfavouriteitem+"\"] }}</p>{% endfor %}"+maphtmlcode+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> add one {filename}</a>".format(filename=filename)+"{% endblock %}"+othermapjs)
 
 
 
 if filename == "user":
     with open("templates/"+filename+"login.html", "w") as myfile:
-        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}{{"+ "x[\""+myfavouriteitem+"\"] }}{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
+        myfile.write("{% extends 'base.html' %}{% block content %}<h1>signin</h1><form method=\"POST\"><div>\n<label>username</label><input name=\"username\"/><div>\n<label>username</label><input name=\"password\" type=\"password\"/></div><div class=\"actions\"><input type=\"submit\"/></div></form>" + "{% for x in "+filename+"s %}<p class=\"my"+myfavouriteitem+"\">{{"+ "x[\""+myfavouriteitem+"\"] }}</p>{% endfor %}"+"{% endblock %}{% block liens %}<a href=\"/\">bienvenue</a>"+"<a href=\"/add_one_{filename}\"> s'inscrire (add one {filename})</a>".format(filename=filename)+"{% endblock %}")
 if "lat" in items and "lon" in items:
  
     mymap=open("./awesomemap.js","r")

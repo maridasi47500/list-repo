@@ -148,6 +148,10 @@ from flask import Flask, render_template, request, session, redirect
 import string
 import random
 from digital_makeup import Maquille
+
+import re
+from codelang_detect import detect as detectprogramminglanguage
+from langdetect import detect as detectspokenlanguage, detect_langs
 from face_recognize import FaceRecognize
 from myplace import Myplace
 from bs4 import BeautifulSoup

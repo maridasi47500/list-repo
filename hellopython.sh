@@ -147,13 +147,27 @@ echo "`cat <<EOF
 from flask import Flask, render_template, request, session, redirect
 import string
 import random
-from digital_makeup import Maquille
+#from digital_makeup import Maquille
 
 import re
-from codelang_detect import detect as detectprogramminglanguage
-from langdetect import detect as detectspokenlanguage, detect_langs
-from face_recognize import FaceRecognize
-from myplace import Myplace
+#from codelang_detect import detect as detectprogramminglanguage
+#from langdetect import detect as detectspokenlanguage, detect_langs
+#from face_recognize import FaceRecognize
+#from myplace import Myplace
+#comment out if you use
+
+##spell checker
+#from spellchecker import SpellChecker
+#from textblob import Word
+#from autocorrect import Speller
+#import speech_recognition as sr
+#print(sr.__version__) #find the latest
+#import spacy
+#from flair.data import Sentence
+#from flair.models import SequenceTagger
+#from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+
 from bs4 import BeautifulSoup
 import subprocess
 import os

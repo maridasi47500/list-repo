@@ -109,9 +109,10 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.append(x.replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
+postreferences=""
 references=""
 
 mylastrowid="""
@@ -129,8 +130,12 @@ while index < (len(items)):
       hasfile=""
       referencesstr=""
       checkbox=""
+      sentiment=""
       staff=""
       sunglasses=""
+      did_you_mean=""
+      find_org_group=""
+      speech_to_text=""
       find_email_phone=""
       color=""
       myemail=""
@@ -146,6 +151,16 @@ while index < (len(items)):
       detect_language=""
       radiobutton=""
       paramname=items[index]
+      if ":find_organization_group" in paramname: 
+          find_org_group="yes"
+      if ":speech_to_text" in paramname: 
+          speech_to_text="yes"
+      if ":sentiment" in paramname: 
+
+          sentiment="yes"
+      if ":did_you_mean" in paramname: 
+
+          did_you_mean="yes"
       if ":email" in paramname: 
 
           myemail="yes"
@@ -245,16 +260,52 @@ while index < (len(items)):
         mylastrowid+="""
         hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
-    if detect_programming_language=="yes":
+    if find_org_group=="yes":
       myfieldtype="textarea"
+      postreferences+=", my_org_group=my_org_group"
       requestfiles+="""
 
+        nlp = spacy.load("en_core_web_sm")
+        my_org_group=""
+        
+        text = hey["{paramname}"]
+        
+        doc = nlp(text)
+        
+        try:
+            for ent in doc.ents:
+                print(ent.text, ent.label_)
+                my_org_group += "<br>"+(ent.text + " " + ent.label_)
+        except:
+            print("error ouille")
+        try:
+            tagger = SequenceTagger.load("ner")
+            sentence = Sentence(text)
+            tagger.predict(sentence)
+            my_org_group += "<br>"+sentence.get_spans('ner')
+            print(sentence.get_spans('ner'))
+        except:
+            print("error ouille")
+""".format(paramname=paramname)
+    if speech_to_text=="yes":
+      myfieldtype="file"
+      postreferences+=", mytts=mytts"
+      requestfiles+="""
 
-        myprog=detectspokenlanguage(hey["{paramname}"])
+        r = sr.Recognizer()
+
+        harvard = sr.AudioFile("./static/photos/"+hey["{paramname}"])
+        with harvard as source:
+           audio = r.record(source)
+
 
         try:
-            hey["language_id"]=query_db("select x.id from language x where x.short_name = ?", [myprog], one=True)["id"]
-            print(detect_langs(hey["{paramname}"]))
+            mylanguage=query_db("select x.short_name from language x where x.id = ?", [hey["language_id"]], one=True)["short_name"]
+            #mytts=r.recognize_bing(audio, language=mylanguage) 
+            mytts=r.recognize_google(audio, language=mylanguage) 
+
+
+            print(mytts)
 
         except Exception as e:
             print("ereeeuuuuur!!! ooowow!",e)
@@ -332,6 +383,37 @@ split('.')[-1]
         
 
 
+    if sentiment == "yes":
+        myfieldtype="textarea"
+        postreferences+=", sentimentscores=sentimentscores"
+        sqltousles+="""
+
+        texttocheck=hey["{paramname}"]
+        analyzer = SentimentIntensityAnalyzer()
+
+        
+        sentimentscores = analyzer.polarity_scores(texttocheck)
+        
+        print(sentimentscores)
+
+""".format(paramname=paramname, tablename=filename)
+    if did_you_mean == "yes":
+        postreferences+=", did_you_mean=(did_you_mean1+' '+did_you_mean2+' '+did_you_mean3)"
+        sqltousles+="""
+        texttocheck=hey["{paramname}"]
+        spell = SpellChecker()
+        words = spell.split_words(texttocheck)
+
+        did_you_mean1=[spell.correction(word) for word in words].join(" ")
+        did_you_mean2=[Word(word).spellcheck()[0][0] for word in words].join(" ")
+        try:
+          language= query_db("select x.short_name from language x on x.id = ?", [hey["language_id"]],  one=True)["short_name"]
+        except:
+          language= "fr"
+        check = Speller(lang=language)
+        did_you_mean3=check(texttocheck)
+
+""".format(paramname=paramname, tablename=filename)
     if recognize_face == "yes":
         references+=", tousles{paramname}=tousles{paramname}".format(paramname=paramname.replace("_id",""))
         sqltousles+="""
@@ -432,7 +514,7 @@ if filename == "user":
 
 """.format(filename=filename, mysession=mysession,columns=columns,values=values)
 addone+="""
-        return render_template("{filename}form.html", {filename}s=user, one_user=one_user, the_title="add new {filename}"{references})
+        return render_template("{filename}form.html", {filename}s=user, one_user=one_user, the_title="add new {filename}"{references}{postreferences})
 """.format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
 addone+=sqltousles2
 addone+="""

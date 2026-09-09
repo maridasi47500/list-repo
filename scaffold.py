@@ -109,7 +109,7 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 postreferences=""
@@ -131,11 +131,13 @@ while index < (len(items)):
       referencesstr=""
       checkbox=""
       sentiment=""
+      translate=""
       staff=""
       sunglasses=""
       did_you_mean=""
       find_org_group=""
       speech_to_text=""
+      image_to_text=""
       find_email_phone=""
       color=""
       myemail=""
@@ -151,8 +153,12 @@ while index < (len(items)):
       detect_language=""
       radiobutton=""
       paramname=items[index]
+      if ":translate" in paramname: 
+          translate="yes"
       if ":find_organization_group" in paramname: 
           find_org_group="yes"
+      if ":image_to_text" in paramname: 
+          image_to_text="yes"
       if ":speech_to_text" in paramname: 
           speech_to_text="yes"
       if ":sentiment" in paramname: 
@@ -286,6 +292,41 @@ while index < (len(items)):
             print(sentence.get_spans('ner'))
         except:
             print("error ouille")
+""".format(paramname=paramname)
+    if translate=="yes":
+      myfieldtype="textarea"
+      postreferences+=", mytranslation=mytranslation"
+      requestfiles+="""
+
+
+        mytext=hey["{paramname}"]
+
+        try:
+            mylanguage=query_db("select x.short_name from language x where x.id = ?", [hey["language_id"]], one=True)["short_name"]
+            translator = Translator(to_lang=mylanguage)
+            mytranslation = translator.translate(mytext)
+
+
+            print(mytranslation)
+
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
+""".format(paramname=paramname)
+    if image_to_text=="yes":
+      myfieldtype="file"
+      postreferences+=", imagetotext=imagetotext"
+      requestfiles+="""
+
+
+
+        try:
+            mylanguage=query_db("select x.short_name_three from language x where x.id = ?", [hey["language_id"]], one=True)["short_name_three"]
+
+            imagetotext=pytesseract.image_to_string("./static/photos/"+hey["{paramname}"])
+            print(imagetotext)
+
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
 """.format(paramname=paramname)
     if speech_to_text=="yes":
       myfieldtype="file"
@@ -478,9 +519,194 @@ mystr+="  , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
 mystr+="""                );
 """
 if filename == "language" or name == "languages":
+    code={
+  "ab": "abk",
+  "aa": "aar",
+  "af": "afr",
+  "ak": "aka",
+  "sq": "sqi",
+  "am": "amh",
+  "ar": "ara",
+  "an": "arg",
+  "hy": "hye",
+  "as": "asm",
+  "av": "ava",
+  "ae": "ave",
+  "ay": "aym",
+  "az": "aze",
+  "bm": "bam",
+  "ba": "bak",
+  "eu": "eus",
+  "be": "bel",
+  "bn": "ben",
+  "bi": "bis",
+  "bs": "bos",
+  "br": "bre",
+  "bg": "bul",
+  "my": "mya",
+  "ca": "cat",
+  "ch": "cha",
+  "ce": "che",
+  "ny": "nya",
+  "zh": "zho",
+  "cu": "chu",
+  "cv": "chv",
+  "kw": "cor",
+  "co": "cos",
+  "cr": "cre",
+  "hr": "hrv",
+  "cs": "ces",
+  "da": "dan",
+  "dv": "div",
+  "nl": "nld",
+  "dz": "dzo",
+  "en": "eng",
+  "eo": "epo",
+  "et": "est",
+  "ee": "ewe",
+  "fo": "fao",
+  "fj": "fij",
+  "fi": "fin",
+  "fr": "fra",
+  "fy": "fry",
+  "ff": "ful",
+  "gd": "gla",
+  "gl": "glg",
+  "lg": "lug",
+  "ka": "kat",
+  "de": "deu",
+  "el": "ell",
+  "kl": "kal",
+  "gn": "grn",
+  "gu": "guj",
+  "ht": "hat",
+  "ha": "hau",
+  "he": "heb",
+  "hz": "her",
+  "hi": "hin",
+  "ho": "hmo",
+  "hu": "hun",
+  "is": "isl",
+  "io": "ido",
+  "ig": "ibo",
+  "id": "ind",
+  "ia": "ina",
+  "ie": "ile",
+  "iu": "iku",
+  "ik": "ipk",
+  "ga": "gle",
+  "it": "ita",
+  "ja": "jpn",
+  "jv": "jav",
+  "kn": "kan",
+  "kr": "kau",
+  "ks": "kas",
+  "kk": "kaz",
+  "km": "khm",
+  "ki": "kik",
+  "rw": "kin",
+  "ky": "kir",
+  "kv": "kom",
+  "kg": "kon",
+  "ko": "kor",
+  "kj": "kua",
+  "ku": "kur",
+  "lo": "lao",
+  "la": "lat",
+  "lv": "lav",
+  "li": "lim",
+  "ln": "lin",
+  "lt": "lit",
+  "lu": "lub",
+  "lb": "ltz",
+  "mk": "mkd",
+  "mg": "mlg",
+  "ms": "msa",
+  "ml": "mal",
+  "mt": "mlt",
+  "gv": "glv",
+  "mi": "mri",
+  "mr": "mar",
+  "mh": "mah",
+  "mn": "mon",
+  "na": "nau",
+  "nv": "nav",
+  "nd": "nde",
+  "nr": "nbl",
+  "ng": "ndo",
+  "ne": "nep",
+  "no": "nor",
+  "nb": "nob",
+  "nn": "nno",
+  "oc": "oci",
+  "oj": "oji",
+  "or": "ori",
+  "om": "orm",
+  "os": "oss",
+  "pi": "pli",
+  "ps": "pus",
+  "fa": "fas",
+  "pl": "pol",
+  "pt": "por",
+  "pa": "pan",
+  "qu": "que",
+  "ro": "ron",
+  "rm": "roh",
+  "rn": "run",
+  "ru": "rus",
+  "se": "sme",
+  "sm": "smo",
+  "sg": "sag",
+  "sa": "san",
+  "sc": "srd",
+  "sr": "srp",
+  "sn": "sna",
+  "sd": "snd",
+  "si": "sin",
+  "sk": "slk",
+  "sl": "slv",
+  "so": "som",
+  "st": "sot",
+  "es": "spa",
+  "su": "sun",
+  "sw": "swa",
+  "ss": "ssw",
+  "sv": "swe",
+  "tl": "tgl",
+  "ty": "tah",
+  "tg": "tgk",
+  "ta": "tam",
+  "tt": "tat",
+  "te": "tel",
+  "th": "tha",
+  "bo": "bod",
+  "ti": "tir",
+  "to": "ton",
+  "ts": "tso",
+  "tn": "tsn",
+  "tr": "tur",
+  "tk": "tuk",
+  "tw": "twi",
+  "ug": "uig",
+  "uk": "ukr",
+  "ur": "urd",
+  "uz": "uzb",
+  "ve": "ven",
+  "vi": "vie",
+  "vo": "vol",
+  "wa": "wln",
+  "cy": "cym",
+  "wo": "wol",
+  "xh": "xho",
+  "ii": "iii",
+  "yi": "yid",
+  "yo": "yor",
+  "za": "zha",
+  "zu": "zul"
+}
     for x in languages:
-        mystr+="""         insert into {filename} (name, short_name) values ("{name}", "{shortname}");
-""".format(filanem=filename, name=languages[x], shortname=x);
+        mystr+="""         insert into {filename} (name, short_name, short_name_three) values ("{name}", "{shortname}", "{shortnamethree}");
+""".format(filanem=filename, name=languages[x], shortname=x, shortnamethree=code[x]);
 if filename == "programminglanguage" or filename == "programming_language":
     for x in programmingl:
         mystr+="""         insert into {filename} (name, short_name) values ("{name}", "{shortname}");

@@ -166,6 +166,11 @@ import re
 #from flair.data import Sentence
 #from flair.models import SequenceTagger
 #from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+#from translate import Translator
+
+#image to text
+#from PIL import Image
+#import pytesseract
 
 
 from bs4 import BeautifulSoup

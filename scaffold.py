@@ -109,7 +109,7 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.append(x.replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.append(x.replace(":news_source","").replace(":newspaper","").replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 postreferences=""
@@ -131,6 +131,8 @@ while index < (len(items)):
       referencesstr=""
       checkbox=""
       sentiment=""
+      newspaper=""
+      news_source=""
       sendemail=""
       translate=""
       staff=""
@@ -154,6 +156,10 @@ while index < (len(items)):
       detect_language=""
       radiobutton=""
       paramname=items[index]
+      if ":news_source" in paramname: 
+          news_source="yes"
+      if ":newspaper" in paramname: 
+          newspaper="yes"
       if ":translate" in paramname: 
           translate="yes"
       if ":find_organization_group" in paramname: 
@@ -308,6 +314,123 @@ while index < (len(items)):
             print(sentence.get_spans('ner'))
         except:
             print("error ouille")
+""".format(paramname=paramname)
+    if news_source=="yes":
+      myfieldtype="text"
+      postreferences+=", authors=authors, publish_date=publish_date, title=title, text=text, top_image=top_image, movies=movies, summary=summary, keywords=keywords"
+      requestfiles+="""
+
+
+        url=hey["{paramname}"]
+
+
+        try:
+            mylanguage=query_db("select x.short_name from language x where x.id = ?", [hey["language_id"]], one=True)["short_name"]
+            sina_paper = newspaper.build(url, language=mylanguage)
+
+            for category in sina_paper.category_urls():
+                print(category)
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
+            mylanguage=None
+        a = sina_paper.articles[0]
+        print(a.text)
+        
+        print(a.title)
+        a.download()
+        a.parse()
+        try:
+            authors=a.authors
+        except:
+            authors=[]
+        try:
+            publish_date=a.publish_date
+        except:
+            publish_date=""
+        try:
+            title=a.title
+        except:
+            title=""
+        try:
+            text=a.text
+        except:
+            text=""
+        try:
+
+            top_image=a.top_image
+        except:
+            top_image=""
+        try:
+
+            movies=a.movies
+        except:
+            movies=[]
+        a.nlp()
+        try:
+
+            keywords=a.keywords
+        except:
+            keywords=[]
+        try:
+
+            summary=a.summary
+        except:
+            summary=[]
+""".format(paramname=paramname)
+    if newspaper=="yes":
+      myfieldtype="text"
+      postreferences+=", authors=authors, publish_date=publish_date, title=title, text=text, top_image=top_image, movies=movies, summary=summary, keywords=keywords"
+      requestfiles+="""
+
+
+        url=hey["{paramname}"]
+
+        try:
+            mylanguage=query_db("select x.short_name from language x where x.id = ?", [hey["language_id"]], one=True)["short_name"]
+
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
+            mylanguage=None
+        a = Article(url, language=mylanguage)
+        a.download()
+        a.parse()
+        try:
+            authors=a.authors
+        except:
+            authors=[]
+        try:
+            publish_date=a.publish_date
+        except:
+            publish_date=""
+        try:
+            title=a.title
+        except:
+            title=""
+        try:
+            text=a.text
+        except:
+            text=""
+        try:
+
+            top_image=a.top_image
+        except:
+            top_image=""
+        try:
+
+            movies=a.movies
+        except:
+            movies=[]
+        a.nlp()
+        try:
+
+            keywords=a.keywords
+        except:
+            keywords=[]
+        try:
+
+            summary=a.summary
+        except:
+            summary=[]
 """.format(paramname=paramname)
     if translate=="yes":
       myfieldtype="textarea"

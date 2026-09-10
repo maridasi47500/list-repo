@@ -150,6 +150,9 @@ import random
 #from digital_makeup import Maquille
 
 import re
+#from newspaper import Article
+#import newspaper
+#print(newspaper.languages())
 #from codelang_detect import detect as detectprogramminglanguage
 #from langdetect import detect as detectspokenlanguage, detect_langs
 #from face_recognize import FaceRecognize

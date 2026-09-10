@@ -109,7 +109,7 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.append(x.replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 postreferences=""
@@ -402,9 +402,9 @@ split('.')[-1]
     if find_email_phone == "yes":
       myfieldtype="textarea"
       requestfiles+="""
-      email = re.findall(r'\S+@\S+', hey["{paramname}"])
+      email = re.findall(r'\\S+@\\S+', hey["{paramname}"])
 
-      phone = re.findall(r'\d{10}', hey["{paramname}"])
+      phone = re.findall(r'\\d{10}', hey["{paramname}"])
       
       print("Email:", email)
       print("Phone:", phone)
@@ -531,7 +531,7 @@ mystr+="  , created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP"
 
 mystr+="""                );
 """
-if filename == "language" or name == "languages":
+if filename == "language" or filename == "languages":
     code={
   "ab": "abk",
   "aa": "aar",
@@ -754,7 +754,7 @@ if filename == "user":
 """.format(filename=filename, mysession=mysession,columns=columns,values=values)
 addone+="""
         return render_template("{filename}form.html", {filename}s=user, one_user=one_user, the_title="add new {filename}"{references}{postreferences})
-""".format(filename=filename, mysession=mysession,columns=columns,values=values,references=references)
+""".format(filename=filename, mysession=mysession,columns=columns,values=values,references=references,postreferences=postreferences)
 addone+=sqltousles2
 addone+="""
     user = query_db('select * from {filename}')

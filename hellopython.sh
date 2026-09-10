@@ -150,6 +150,11 @@ import random
 #from digital_makeup import Maquille
 
 import re
+#import python_weather
+#
+#import asyncio
+
+
 #from newspaper import Article
 #import newspaper
 #print(newspaper.languages())

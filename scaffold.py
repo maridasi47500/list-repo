@@ -109,7 +109,7 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.append(x.replace(":news_source","").replace(":newspaper","").replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.append(x.replace(":weather","").replace(":news_source","").replace(":newspaper","").replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 postreferences=""
@@ -135,6 +135,7 @@ while index < (len(items)):
       news_source=""
       sendemail=""
       translate=""
+      weather=""
       staff=""
       sunglasses=""
       did_you_mean=""
@@ -160,6 +161,8 @@ while index < (len(items)):
           news_source="yes"
       if ":newspaper" in paramname: 
           newspaper="yes"
+      if ":weather" in paramname: 
+          weather="yes"
       if ":translate" in paramname: 
           translate="yes"
       if ":find_organization_group" in paramname: 
@@ -431,6 +434,47 @@ while index < (len(items)):
             summary=a.summary
         except:
             summary=[]
+""".format(paramname=paramname)
+    if weather=="yes":
+      myfieldtype="text"
+      postreferences+=", mytext=mytext"
+      requestfiles+="""
+
+
+        mytext=""
+
+
+        try:
+            mycity=query_db("select x.name as cityname, y.name as countryname from city x left join country y on y.id = x.country_id where x.id = ?", [hey["city_id"]], one=True)
+            cityname=mycity["cityname"]+" "+mycity["countryname"]
+            async def myweather() -> None:
+
+              # Declare the client. The measuring unit used defaults to the metric system (celcius, km/h, etc.)
+              async with python_weather.Client(unit=python_weather.IMPERIAL) as client:
+                # Fetch a weather forecast from a city.
+                weather = await client.get(cityname)
+
+                # Fetch the temperature for today.
+                print(weather.temperature)
+                mytext+="\n"+(weather.temperature)
+
+                # Fetch weather forecast for upcoming days.
+                for daily in weather:
+                  print(daily)
+                  mytext+="\n"+daily
+
+                  # Each daily forecast has their own hourly forecasts.
+                  for hourly in daily:
+                    print(f' --> {hourly!r}')
+                    mytext+="\n"+hourly
+
+
+            asyncio.run(myweather())
+
+
+            hey["{paramname}"]=mytext
+        except Exception as e:
+            print("ereeeuuuuur!!! ooowow!",e)
 """.format(paramname=paramname)
     if translate=="yes":
       myfieldtype="textarea"

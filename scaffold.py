@@ -252,7 +252,8 @@ while index < (len(items)):
         file_pointer = open("./static/scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "w")
         file_pointer.write("<lilypond staffsize=34>"+contents+"</lilypond>")
         file_pointer.close()
-        subprocess.run(["lilypond-book", "static/scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "-f", "html", "--output", "static/scores/samplescore{tablename}_{columnname}"+mylastrowid]) 
+        p1=subprocess.Popen(["lilypond-book", "static/scores/{tablename}_{columnname}_sample_"+mylastrowid+".html", "-f", "html", "--output", "static/scores/samplescore{tablename}_{columnname}"+mylastrowid]) 
+        exit_codes = [p.wait() for p in (p1,)]
 
         try:
             f= open("static/scores/samplescore{tablename}_{columnname}"+mylastrowid+"/{tablename}_{columnname}_sample_"+mylastrowid+".html")
@@ -261,10 +262,12 @@ while index < (len(items)):
 """.format(tablename=filename,columnname=paramname)
 
         mylastrowid+="""
-            picvalue=dict({'pic': "static/scores/samplescoremyscore_mymusic"+mylastrowid+"/"+soup.find('img').get("src"), 'id': mylastrowid})
+            picvalue=dict({'pic': "static/scores/samplescore"""+filename+"_"+paramname+""""+mylastrowid+"/"+soup.find('img').get("src"), 'id': mylastrowid})
         except:
             picvalue=dict({'pic': "", "id": mylastrowid})
         print(picvalue)
+        hey["pic"]=picvalue["pic"]
+
 """
         mylastrowid+="""
         hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)

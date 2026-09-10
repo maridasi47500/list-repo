@@ -68,8 +68,8 @@ pip install autocorrect textblob pyspellchecker
 ajoute :speech_to_text à une colonne ou normalement tu prends une musique/un son, et tu dois avoir une colonne language_id pour te dire quelle langue c'est et tu recupere le texte de l'enregistrement dans la colonne mytext
 </p>
 <p>
-ajoute :send_email à une colonne où il y a le message, il doit y avoir les Trois autres colonnes receiver_email, receiver_name, et pic,  ca doit envoyer le message.
-il doit y avoir une colonne receiver_name et receiver_email, et au moins une colonne pic et une colonne message ou appelée par un autre nom que message.  Tu dois fixer avec export YOUR_EMAIL='', YOUR_PASSWORD='', export SENDERNAME = ''
+ajoute :send_email à une colonne où il y a le message, il doit y avoir les Trois autres colonnes sender, ca doit envoyer le message
+il doit y avoir une colonne receiver_name et receiver_email, et au moins une colonne pic et une colonne message
 </p>
 <p>
 ajoute :send_email_musical à une colonne où il y a le destinataire/body/sender/subject du message dans une meme table ou il y a des colonnes time_signature, key_signature, pic, :staff, , il doit y avoir les Trois autres colonnes, ca doit envoyer le message avec l'image des notes de musique
@@ -111,24 +111,6 @@ user username password email phone country_id:references
 <p>
 country name
 </p>
-<div class="row row-cols-1 row-cols-md-3 g-4">
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <h5 class="card-title">&#9992; Partition</h5>
-        <p class="card-text">simplescore title_score composer myscore:staff pic time_signature pic:signature </p>
-      </div>
-    </div>
-  </div>
-  <div class="col">
-    <div class="card h-100">
-      <div class="card-body">
-        <h5 class="card-title">&#9992; Partition à envoyer par email</h5>
-        <p class="card-text">scoretosend title_score composer myscore:staff pic time_signature pic:signature receiver_name receiver_email message</p>
-      </div>
-    </div>
-  </div>
-</div>
 <form method="post">
 <label>Contenu de ma base de données</label>
 <textarea style="height:200px;width:100%;" name="bdd"> 

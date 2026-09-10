@@ -109,7 +109,7 @@ programmingl={
   "yaml": "YAML "
 }
 for x in items:
-    normalitems.replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
+    normalitems.replace(":send_email","").replace(":image_to_text","").replace(":speech_to_text","").replace(":translate","").replace(":sentiment","").replace(":find_organization_group","").replace(":did_you_mean","").replace(":hidden","").replace(":detect_language","").replace(":detect_programming_language","").replace(":textarea","").replace(":find_email_phone","").replace(":sunglasses","").replace(":recognize_face","").replace(":maquille","").replace(":staff","").replace(":color","").replace(":password","").replace(":email","").replace(":datetime","").replace(":date","").replace(":time","").replace(":radio","").replace(":checkbox","").replace(":file","").replace(":references",""))
 myfavouriteitem=normalitems[2]
 referencesstr=""
 postreferences=""
@@ -131,6 +131,7 @@ while index < (len(items)):
       referencesstr=""
       checkbox=""
       sentiment=""
+      sendemail=""
       translate=""
       staff=""
       sunglasses=""
@@ -157,6 +158,8 @@ while index < (len(items)):
           translate="yes"
       if ":find_organization_group" in paramname: 
           find_org_group="yes"
+      if ":send_email" in paramname: 
+          sendemail="yes"
       if ":image_to_text" in paramname: 
           image_to_text="yes"
       if ":speech_to_text" in paramname: 
@@ -266,6 +269,16 @@ while index < (len(items)):
         mylastrowid+="""
         hello_there = query_db("update {tablename} set pic = :pic where id = :id",picvalue, one=True)
 """.format(tablename=filename,columnname=paramname)
+    if sendemail=="yes":
+      myfieldtype="textarea"
+      requestfiles+="""
+
+        try:
+            Sendemail(receiver_emails=[hey["receiver_email"]], receiver_names=[hey["receiver_name"]], filename=hey["pic"], message=hey["{paramname}"])
+            
+        except:
+            print("error ouille")
+""".format(paramname=paramname)
     if find_org_group=="yes":
       myfieldtype="textarea"
       postreferences+=", my_org_group=my_org_group"

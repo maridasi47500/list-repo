@@ -171,6 +171,7 @@ import re
 #image to text
 #from PIL import Image
 #import pytesseract
+#from sendemail import Sendemail
 
 
 from bs4 import BeautifulSoup
@@ -234,6 +235,7 @@ INSERT OR IGNORE INTO contacts (contact_id, first_name, last_name, email, phone)
 VALUES( '2', 'anne onim', 'onim', 'anne.onim@email.com', '+86877779898');
 EOF`" > "/home/$USER/$1/schema.sql"
 pwd
+cp ~/list-repo/sendemail.py "/home/$USER/$1"
 cp ~/list-repo/samplescoreexample.ly "/home/$USER/$1"
 cp ~/list-repo/awesomemap.js "/home/$USER/$1"
 cp ~/list-repo/face_recognize.py "/home/$USER/$1"

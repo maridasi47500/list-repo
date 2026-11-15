@@ -1,0 +1,33 @@
+<form>
+<div>
+<label>
+envoyer un username
+</label>
+<input value="{{ username }}" name="username"/>
+</div>
+<div>
+<label>
+page number
+</label>
+<input name="pageno" value="{{ pageno }}"/>
+</div>
+<input type="submit" value="envoyer"/>
+
+</form>
+<a href="/?username={{ username }}&pageno={{ (pageno) | int - 1 }}"><----{{ (pageno) | int - 1 }}</a>
+<a href="/?username={{ username }}&pageno={{ pageno | int + 1 }}">{{ pageno | int + 1 }}---></a>
+<h2> repos for {{ username }}</h2>
+{% for x in repos %}
+
+<li>
+{% if (x["size"] | int) < 50 %}
+<b>
+{% endif%}
+<a target="_blank" href="/crawler?username={{ username }}&repo={{ x["name"] }}&pageno={{ pageno }}">{{ x["name"] }} (<i>{{ x["language"] }}</i>, size: <i>{{ x["size"] }}</i>)</a><br><span style="font-size:14px;">{{ x["description"] }} 
+</span>
+{% if (x["size"] | int) < 50 %}
+</b>
+{% endif%}
+</li>
+
+{% endfor%}

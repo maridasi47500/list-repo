@@ -1,6 +1,11 @@
 import requests
+import os
 import subprocess
+import string
+import random
 from flask import Flask, render_template, request, session
+from werkzeug.utils import secure_filename
+
 
 
 def list_github_repos(username, token=None,pagenumber=1):
@@ -148,6 +153,57 @@ def crawler():
 
 
     return render_template("crawler.html", readme=myreadme, repo=repo, username=user, pageno=pageno)
+
+@app.route("/crawlerpic", methods=['GET', 'POST'])
+def crawlerpic():
+    # Example usage
+    try:
+        user = request.args.get("username")
+    except:
+        user = ""
+    try:
+        pageno = request.args.get("pageno")
+    except:
+        pageno=""
+    try:
+        repo = request.args.get("repo")
+    except:
+        repo=""
+    url="https://raw.githubusercontent.com/"+user+"/"+repo+"/refs/heads/main/README.md"
+    print(url)
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Raise HTTPError for bad responses
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching repositories: {e}")
+
+    myreadme = response.text
+    if request.method == 'POST':
+        try:
+            pic=request.files["pic"]
+            #char_set = string.ascii_uppercase + string.digits
+            char_set="azertyuiopqsdfghjklmwxcvbn1234567890"
+            myfilename=''.join(random.sample(char_set*6, 8))+"."+pic.filename.split('.')[-1]
+            if pic.filename != '':
+                pic.save(os.path.join('C:\\', 'Users', os.getlogin(), repo, "static", secure_filename(myfilename)))
+            #pic.save(os.path.join('C:\\', 'Utilisateurs', os.getlogin(), repo, "static", secure_filename("hellothere")))
+            #print("haha")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "templates", "hey.html"), "a") as f:
+                f.write("\n<img src=\""+myfilename+"\" width=\"100px\" height=\"100px\">")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "README.md"), "a") as f:
+                f.write("\n![alt text](./static/"+myfilename+")")
+        except Exception as e:
+            print("exception ", str(e))
+
+
+
+
+    else:
+        bdd=[]
+
+
+
+    return render_template("crawlerpic.html", readme=myreadme, repo=repo, username=user, pageno=pageno)
 
 if __name__ == "__main__":
     app.run()

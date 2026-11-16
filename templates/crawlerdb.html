@@ -40,7 +40,7 @@ to clone this repository disconnect server :
       <div class="card-body">
 	      <h5 class="card-title">&#9992; table "{{x}}"</h5>
 	      {%for y in schema[x]%}
-	      <p class="card-text myrow"> {{y}} {{schema[x][y]}}</p>
+	      <p class="card-text myrow" onclick="nomdescolonnes.innerHTML=nomdescolonnes.innerHTML+'\nce que je pourrais faire avec la colonne {{y}} {{schema[x][y]}}\nce que je pourrais faire avec la table {{x}}';window.scrollTo(0, 888888888888);return false;"> {{y}} {{schema[x][y]}}</p>
   {%endfor%}
  </p>
       </div>
@@ -58,12 +58,9 @@ select one get bootstrap item in my awesomelist
 	</select>
 </p>
 <form method="post">
-<label>colonne de ma base de données</label>
-<textarea style="height:200px;width:100%;" name="bdd"> 
-</textarea>
 <div class="field">
 <label>texte a ajouter</label>
-<textarea style="height:200px;width:100%;" name="finmot" placeholder="fin de mes mots"> 
+<textarea style="height:200px;width:100%;" id="nomdescolonnes" name="finmot" placeholder="fin de mes mots"> 
 </textarea>
 </div>
 <input value="send" type="submit"/>

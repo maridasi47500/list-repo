@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block montitre %}
+{{ repo }} de {{ username }}
+{% endblock %}
+
+{% block content %}
+<a href="/?username={{username }}&pageno={{ pageno }}">back to page {{ pageno }}</a>
+<h2>readme {{ repo }} de {{ username }}</h2>
+<a target="_blank" href="https://github.com/{{ username }}/{{ repo }}">accéder au repository</a>
+<p>
+<a target="_blank" href="/crawlerdescription?username={{ username }}&repo={{ repo }}&pageno={{ pageno }}">ajouter une README de description à {{ repo }}</a>
+
+</p>
+<p>
+to clone this repository disconnect server : 
+
+<code>
+<input readonly="readonly" value="(cd .. && git clone git@github.com:{{ username }}/{{ repo }}.git)" style="width:300px;"/>
+</code>
+</p>
+<p>
+ to push the database of this repository disconnect server
+<code>
+<input readonly="readonly" value=". pleasecopynow{{ repo }}.sh" style="width:300px;"/>
+</code>
+</p>
+<p>
+ tout en 1 (clone this repository and push the database of this repository
+<code>
+<input readonly="readonly" value="(cd .. && git clone git@github.com:{{ username }}/{{ repo }}.git) && . pleasecopynow{{ repo }}.sh" style="width:300px;"/>
+</code>
+</p>
+<textarea style="height:200px;width:100%;" readonly=true>
+{{readme}}
+</textarea>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+	{%for x in schema%}
+  <div class="col">
+    <div class="card h-100">
+      <div class="card-body">
+	      <h5 class="card-title">&#9992; table "{{x}}"</h5>
+	      {%for y in schema[x]%}
+	      <p class="card-text myrow"> {{y}} {{schela[x][y]}}</p>
+  {%endfor%}
+ </p>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+</div>
+<p>
+{{schema}}
+</p>
+<form method="post">
+<label>colonne de ma base de données</label>
+<textarea style="height:200px;width:100%;" name="bdd"> 
+</textarea>
+<div class="field">
+<label>texte a ajouter</label>
+<textarea style="height:200px;width:100%;" name="finmot" placeholder="fin de mes mots"> 
+</textarea>
+</div>
+<input value="send" type="submit"/>
+</form>
+
+{% endblock %}

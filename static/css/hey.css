@@ -1,0 +1,5 @@
+.myrow:hover {
+	background: orange;
+	color:white;
+	pointer: normal;
+}	

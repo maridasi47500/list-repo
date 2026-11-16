@@ -40,7 +40,7 @@ to clone this repository disconnect server :
       <div class="card-body">
 	      <h5 class="card-title">&#9992; table "{{x}}"</h5>
 	      {%for y in schema[x]%}
-	      <p class="card-text myrow"> {{y}} {{schela[x][y]}}</p>
+	      <p class="card-text myrow"> {{y}} {{schema[x][y]}}</p>
   {%endfor%}
  </p>
       </div>

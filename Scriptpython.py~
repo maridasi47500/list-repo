@@ -377,161 +377,627 @@ def crawlerdb():
     result = parse_sql_to_dict(myschema)
     print(json.dumps(result, indent=2))
     awesomelist=[
-    "https://getbootstrap.com/docs/6.0/forms/checkbox/",
-    "https://getbootstrap.com/docs/6.0/forms/checkbox/",
-    "https://getbootstrap.com/docs/6.0/components/card/#card-groups",
-    "https://getbootstrap.com/docs/6.0/components/card/",
-    "https://getbootstrap.com/docs/6.0/forms/switch/",
-    "https://getbootstrap.com/docs/6.0/forms/radio/",
-    "https://getbootstrap.com/docs/6.0/getting-started/install",
-    "https://getbootstrap.com/docs/6.0/getting-started/ai",
-    "https://getbootstrap.com/docs/6.0/getting-started/approach",
-    "https://getbootstrap.com/docs/6.0/getting-started/css-variables",
-    "https://getbootstrap.com/docs/6.0/getting-started/javascript",
-    "https://getbootstrap.com/docs/6.0/getting-started/browsers-devices",
-    "https://getbootstrap.com/docs/6.0/getting-started/accessibility",
-    "https://getbootstrap.com/docs/6.0/guides/quickstart",
-    "https://getbootstrap.com/docs/6.0/guides/npm",
-    "https://getbootstrap.com/docs/6.0/guides/webpack",
-    "https://getbootstrap.com/docs/6.0/guides/parcel",
-    "https://getbootstrap.com/docs/6.0/guides/vite",
-    "https://getbootstrap.com/docs/6.0/guides/contribute",
-    "https://getbootstrap.com/docs/6.0/guides/migration",
-    "https://getbootstrap.com/docs/6.0/customize/overview",
-    "https://getbootstrap.com/docs/6.0/customize/sass",
-    "https://getbootstrap.com/docs/6.0/customize/options",
-    "https://getbootstrap.com/docs/6.0/customize/color",
-    "https://getbootstrap.com/docs/6.0/customize/theme",
-    "https://getbootstrap.com/docs/6.0/customize/color-modes",
-    "https://getbootstrap.com/docs/6.0/customize/components",
-    "https://getbootstrap.com/docs/6.0/customize/transitions",
-    "https://getbootstrap.com/docs/6.0/customize/rtl",
-    "https://getbootstrap.com/docs/6.0/customize/optimize",
-    "https://getbootstrap.com/docs/6.0/layout/breakpoints",
-    "https://getbootstrap.com/docs/6.0/layout/containers",
-    "https://getbootstrap.com/docs/6.0/layout/grid",
-    "https://getbootstrap.com/docs/6.0/layout/columns",
-    "https://getbootstrap.com/docs/6.0/layout/gutters",
-    "https://getbootstrap.com/docs/6.0/layout/utilities",
-    "https://getbootstrap.com/docs/6.0/layout/z-index",
-    "https://getbootstrap.com/docs/6.0/layout/css-grid",
-    "https://getbootstrap.com/docs/6.0/content/reboot",
-    "https://getbootstrap.com/docs/6.0/content/typography",
-    "https://getbootstrap.com/docs/6.0/content/images",
-    "https://getbootstrap.com/docs/6.0/content/tables",
-    "https://getbootstrap.com/docs/6.0/content/prose",
-    "https://getbootstrap.com/docs/6.0/forms/overview",
-    "https://getbootstrap.com/docs/6.0/forms/field",
-    "https://getbootstrap.com/docs/6.0/forms/form-control",
-    "https://getbootstrap.com/docs/6.0/forms/checkbox",
-    "https://getbootstrap.com/docs/6.0/forms/radio",
-    "https://getbootstrap.com/docs/6.0/forms/switch",
-    "https://getbootstrap.com/docs/6.0/forms/range",
-    "https://getbootstrap.com/docs/6.0/forms/input-group",
-    "https://getbootstrap.com/docs/6.0/forms/floating-labels",
-    "https://getbootstrap.com/docs/6.0/forms/form-adorn",
-    "https://getbootstrap.com/docs/6.0/forms/chips",
-    "https://getbootstrap.com/docs/6.0/forms/combobox",
-    "https://getbootstrap.com/docs/6.0/forms/datepicker",
-    "https://getbootstrap.com/docs/6.0/forms/otp-input",
-    "https://getbootstrap.com/docs/6.0/forms/password-strength",
-    "https://getbootstrap.com/docs/6.0/forms/layout",
-    "https://getbootstrap.com/docs/6.0/forms/validation",
-    "https://getbootstrap.com/docs/6.0/components/accordion",
-    "https://getbootstrap.com/docs/6.0/components/alert",
-    "https://getbootstrap.com/docs/6.0/components/avatar",
-    "https://getbootstrap.com/docs/6.0/components/badge",
-    "https://getbootstrap.com/docs/6.0/components/breadcrumb",
-    "https://getbootstrap.com/docs/6.0/components/button",
-    "https://getbootstrap.com/docs/6.0/components/button-group",
-    "https://getbootstrap.com/docs/6.0/components/card",
-    "https://getbootstrap.com/docs/6.0/components/carousel",
-    "https://getbootstrap.com/docs/6.0/components/close-button",
-    "https://getbootstrap.com/docs/6.0/components/collapse",
-    "https://getbootstrap.com/docs/6.0/components/dialog",
-    "https://getbootstrap.com/docs/6.0/components/drawer",
-    "https://getbootstrap.com/docs/6.0/components/list-group",
-    "https://getbootstrap.com/docs/6.0/components/menu",
-    "https://getbootstrap.com/docs/6.0/components/nav",
-    "https://getbootstrap.com/docs/6.0/components/nav-overflow",
-    "https://getbootstrap.com/docs/6.0/components/navbar",
-    "https://getbootstrap.com/docs/6.0/components/pagination",
-    "https://getbootstrap.com/docs/6.0/components/placeholder",
-    "https://getbootstrap.com/docs/6.0/components/popover",
-    "https://getbootstrap.com/docs/6.0/components/progress",
-    "https://getbootstrap.com/docs/6.0/components/scrollspy",
-    "https://getbootstrap.com/docs/6.0/components/spinner",
-    "https://getbootstrap.com/docs/6.0/components/stepper",
-    "https://getbootstrap.com/docs/6.0/components/tab",
-    "https://getbootstrap.com/docs/6.0/components/toasts",
-    "https://getbootstrap.com/docs/6.0/components/toggler",
-    "https://getbootstrap.com/docs/6.0/components/tooltip",
-    "https://getbootstrap.com/docs/6.0/helpers/focus-ring",
-    "https://getbootstrap.com/docs/6.0/helpers/hover-lift",
-    "https://getbootstrap.com/docs/6.0/helpers/icon-link",
-    "https://getbootstrap.com/docs/6.0/helpers/position",
-    "https://getbootstrap.com/docs/6.0/helpers/stacks",
-    "https://getbootstrap.com/docs/6.0/helpers/stretched-link",
-    "https://getbootstrap.com/docs/6.0/helpers/text-truncation",
-    "https://getbootstrap.com/docs/6.0/helpers/vertical-rule",
-    "https://getbootstrap.com/docs/6.0/helpers/visually-hidden",
-    "https://getbootstrap.com/docs/6.0/utilities/api",
-    "https://getbootstrap.com/docs/6.0/utilities/colors",
-    "https://getbootstrap.com/docs/6.0/utilities/background",
-    "https://getbootstrap.com/docs/6.0/utilities/color-scheme",
-    "https://getbootstrap.com/docs/6.0/utilities/theme",
-    "https://getbootstrap.com/docs/6.0/utilities/aspect-ratio",
-    "https://getbootstrap.com/docs/6.0/utilities/container-queries",
-    "https://getbootstrap.com/docs/6.0/utilities/display",
-    "https://getbootstrap.com/docs/6.0/utilities/float",
-    "https://getbootstrap.com/docs/6.0/utilities/object-fit",
-    "https://getbootstrap.com/docs/6.0/utilities/overflow",
-    "https://getbootstrap.com/docs/6.0/utilities/position",
-    "https://getbootstrap.com/docs/6.0/utilities/visibility",
-    "https://getbootstrap.com/docs/6.0/utilities/z-index",
-    "https://getbootstrap.com/docs/6.0/utilities/align-content",
-    "https://getbootstrap.com/docs/6.0/utilities/align-items",
-    "https://getbootstrap.com/docs/6.0/utilities/align-self",
-    "https://getbootstrap.com/docs/6.0/utilities/flex",
-    "https://getbootstrap.com/docs/6.0/utilities/gap",
-    "https://getbootstrap.com/docs/6.0/utilities/grid",
-    "https://getbootstrap.com/docs/6.0/utilities/justify-content",
-    "https://getbootstrap.com/docs/6.0/utilities/justify-items",
-    "https://getbootstrap.com/docs/6.0/utilities/place-items",
-    "https://getbootstrap.com/docs/6.0/utilities/width",
-    "https://getbootstrap.com/docs/6.0/utilities/height",
-    "https://getbootstrap.com/docs/6.0/utilities/margin",
-    "https://getbootstrap.com/docs/6.0/utilities/padding",
-    "https://getbootstrap.com/docs/6.0/utilities/space",
-    "https://getbootstrap.com/docs/6.0/utilities/font-family",
-    "https://getbootstrap.com/docs/6.0/utilities/font-size",
-    "https://getbootstrap.com/docs/6.0/utilities/font-style",
-    "https://getbootstrap.com/docs/6.0/utilities/font-weight",
-    "https://getbootstrap.com/docs/6.0/utilities/line-height",
-    "https://getbootstrap.com/docs/6.0/utilities/link",
-    "https://getbootstrap.com/docs/6.0/utilities/text-alignment",
-    "https://getbootstrap.com/docs/6.0/utilities/text-decoration",
-    "https://getbootstrap.com/docs/6.0/utilities/text-transform",
-    "https://getbootstrap.com/docs/6.0/utilities/text-wrapping",
-    "https://getbootstrap.com/docs/6.0/utilities/vertical-align",
-    "https://getbootstrap.com/docs/6.0/utilities/border",
-    "https://getbootstrap.com/docs/6.0/utilities/border-color",
-    "https://getbootstrap.com/docs/6.0/utilities/border-radius",
-    "https://getbootstrap.com/docs/6.0/utilities/divide",
-    "https://getbootstrap.com/docs/6.0/utilities/pointer-events",
-    "https://getbootstrap.com/docs/6.0/utilities/user-select",
-    "https://getbootstrap.com/docs/6.0/utilities/motion",
-    "https://getbootstrap.com/docs/6.0/utilities/opacity",
-    "https://getbootstrap.com/docs/6.0/utilities/shadows",
-    "https://getbootstrap.com/docs/6.0/forms/form-control/",
-    "https://getbootstrap.com/docs/6.0/forms/radio/",
-    "https://getbootstrap.com/docs/6.0/",
-    "https://getbootstrap.com/docs/6.0/examples",
-    "https://getbootstrap.com/docs/6.0/getting-started",
-    "https://getbootstrap.com/docs/6.0/examples/starter-template",
-    "https://getbootstrap.com/docs/6.0/guides/webpack",
-    "https://getbootstrap.com/docs/6.0/guides/parcel",
-    "https://getbootstrap.com/docs/6.0/guides/vite"]
+    [
+        "checkbox ",
+        "https://getbootstrap.com/docs/6.0/forms/checkbox/"
+    ],
+    [
+        "checkbox ",
+        "https://getbootstrap.com/docs/6.0/forms/checkbox/"
+    ],
+    [
+        "card #card-groups",
+        "https://getbootstrap.com/docs/6.0/components/card/#card-groups"
+    ],
+    [
+        "card ",
+        "https://getbootstrap.com/docs/6.0/components/card/"
+    ],
+    [
+        "switch ",
+        "https://getbootstrap.com/docs/6.0/forms/switch/"
+    ],
+    [
+        "radio ",
+        "https://getbootstrap.com/docs/6.0/forms/radio/"
+    ],
+    [
+        "getting-started install",
+        "https://getbootstrap.com/docs/6.0/getting-started/install"
+    ],
+    [
+        "getting-started ai",
+        "https://getbootstrap.com/docs/6.0/getting-started/ai"
+    ],
+    [
+        "getting-started approach",
+        "https://getbootstrap.com/docs/6.0/getting-started/approach"
+    ],
+    [
+        "getting-started css-variables",
+        "https://getbootstrap.com/docs/6.0/getting-started/css-variables"
+    ],
+    [
+        "getting-started javascript",
+        "https://getbootstrap.com/docs/6.0/getting-started/javascript"
+    ],
+    [
+        "getting-started browsers-devices",
+        "https://getbootstrap.com/docs/6.0/getting-started/browsers-devices"
+    ],
+    [
+        "getting-started accessibility",
+        "https://getbootstrap.com/docs/6.0/getting-started/accessibility"
+    ],
+    [
+        "guides quickstart",
+        "https://getbootstrap.com/docs/6.0/guides/quickstart"
+    ],
+    [
+        "guides npm",
+        "https://getbootstrap.com/docs/6.0/guides/npm"
+    ],
+    [
+        "guides webpack",
+        "https://getbootstrap.com/docs/6.0/guides/webpack"
+    ],
+    [
+        "guides parcel",
+        "https://getbootstrap.com/docs/6.0/guides/parcel"
+    ],
+    [
+        "guides vite",
+        "https://getbootstrap.com/docs/6.0/guides/vite"
+    ],
+    [
+        "guides contribute",
+        "https://getbootstrap.com/docs/6.0/guides/contribute"
+    ],
+    [
+        "guides migration",
+        "https://getbootstrap.com/docs/6.0/guides/migration"
+    ],
+    [
+        "customize overview",
+        "https://getbootstrap.com/docs/6.0/customize/overview"
+    ],
+    [
+        "customize sass",
+        "https://getbootstrap.com/docs/6.0/customize/sass"
+    ],
+    [
+        "customize options",
+        "https://getbootstrap.com/docs/6.0/customize/options"
+    ],
+    [
+        "customize color",
+        "https://getbootstrap.com/docs/6.0/customize/color"
+    ],
+    [
+        "customize theme",
+        "https://getbootstrap.com/docs/6.0/customize/theme"
+    ],
+    [
+        "customize color-modes",
+        "https://getbootstrap.com/docs/6.0/customize/color-modes"
+    ],
+    [
+        "customize components",
+        "https://getbootstrap.com/docs/6.0/customize/components"
+    ],
+    [
+        "customize transitions",
+        "https://getbootstrap.com/docs/6.0/customize/transitions"
+    ],
+    [
+        "customize rtl",
+        "https://getbootstrap.com/docs/6.0/customize/rtl"
+    ],
+    [
+        "customize optimize",
+        "https://getbootstrap.com/docs/6.0/customize/optimize"
+    ],
+    [
+        "layout breakpoints",
+        "https://getbootstrap.com/docs/6.0/layout/breakpoints"
+    ],
+    [
+        "layout containers",
+        "https://getbootstrap.com/docs/6.0/layout/containers"
+    ],
+    [
+        "layout grid",
+        "https://getbootstrap.com/docs/6.0/layout/grid"
+    ],
+    [
+        "layout columns",
+        "https://getbootstrap.com/docs/6.0/layout/columns"
+    ],
+    [
+        "layout gutters",
+        "https://getbootstrap.com/docs/6.0/layout/gutters"
+    ],
+    [
+        "layout utilities",
+        "https://getbootstrap.com/docs/6.0/layout/utilities"
+    ],
+    [
+        "layout z-index",
+        "https://getbootstrap.com/docs/6.0/layout/z-index"
+    ],
+    [
+        "layout css-grid",
+        "https://getbootstrap.com/docs/6.0/layout/css-grid"
+    ],
+    [
+        "content reboot",
+        "https://getbootstrap.com/docs/6.0/content/reboot"
+    ],
+    [
+        "content typography",
+        "https://getbootstrap.com/docs/6.0/content/typography"
+    ],
+    [
+        "content images",
+        "https://getbootstrap.com/docs/6.0/content/images"
+    ],
+    [
+        "content tables",
+        "https://getbootstrap.com/docs/6.0/content/tables"
+    ],
+    [
+        "content prose",
+        "https://getbootstrap.com/docs/6.0/content/prose"
+    ],
+    [
+        "forms overview",
+        "https://getbootstrap.com/docs/6.0/forms/overview"
+    ],
+    [
+        "forms field",
+        "https://getbootstrap.com/docs/6.0/forms/field"
+    ],
+    [
+        "forms form-control",
+        "https://getbootstrap.com/docs/6.0/forms/form-control"
+    ],
+    [
+        "forms checkbox",
+        "https://getbootstrap.com/docs/6.0/forms/checkbox"
+    ],
+    [
+        "forms radio",
+        "https://getbootstrap.com/docs/6.0/forms/radio"
+    ],
+    [
+        "forms switch",
+        "https://getbootstrap.com/docs/6.0/forms/switch"
+    ],
+    [
+        "forms range",
+        "https://getbootstrap.com/docs/6.0/forms/range"
+    ],
+    [
+        "forms input-group",
+        "https://getbootstrap.com/docs/6.0/forms/input-group"
+    ],
+    [
+        "forms floating-labels",
+        "https://getbootstrap.com/docs/6.0/forms/floating-labels"
+    ],
+    [
+        "forms form-adorn",
+        "https://getbootstrap.com/docs/6.0/forms/form-adorn"
+    ],
+    [
+        "forms chips",
+        "https://getbootstrap.com/docs/6.0/forms/chips"
+    ],
+    [
+        "forms combobox",
+        "https://getbootstrap.com/docs/6.0/forms/combobox"
+    ],
+    [
+        "forms datepicker",
+        "https://getbootstrap.com/docs/6.0/forms/datepicker"
+    ],
+    [
+        "forms otp-input",
+        "https://getbootstrap.com/docs/6.0/forms/otp-input"
+    ],
+    [
+        "forms password-strength",
+        "https://getbootstrap.com/docs/6.0/forms/password-strength"
+    ],
+    [
+        "forms layout",
+        "https://getbootstrap.com/docs/6.0/forms/layout"
+    ],
+    [
+        "forms validation",
+        "https://getbootstrap.com/docs/6.0/forms/validation"
+    ],
+    [
+        "components accordion",
+        "https://getbootstrap.com/docs/6.0/components/accordion"
+    ],
+    [
+        "components alert",
+        "https://getbootstrap.com/docs/6.0/components/alert"
+    ],
+    [
+        "components avatar",
+        "https://getbootstrap.com/docs/6.0/components/avatar"
+    ],
+    [
+        "components badge",
+        "https://getbootstrap.com/docs/6.0/components/badge"
+    ],
+    [
+        "components breadcrumb",
+        "https://getbootstrap.com/docs/6.0/components/breadcrumb"
+    ],
+    [
+        "components button",
+        "https://getbootstrap.com/docs/6.0/components/button"
+    ],
+    [
+        "components button-group",
+        "https://getbootstrap.com/docs/6.0/components/button-group"
+    ],
+    [
+        "components card",
+        "https://getbootstrap.com/docs/6.0/components/card"
+    ],
+    [
+        "components carousel",
+        "https://getbootstrap.com/docs/6.0/components/carousel"
+    ],
+    [
+        "components close-button",
+        "https://getbootstrap.com/docs/6.0/components/close-button"
+    ],
+    [
+        "components collapse",
+        "https://getbootstrap.com/docs/6.0/components/collapse"
+    ],
+    [
+        "components dialog",
+        "https://getbootstrap.com/docs/6.0/components/dialog"
+    ],
+    [
+        "components drawer",
+        "https://getbootstrap.com/docs/6.0/components/drawer"
+    ],
+    [
+        "components list-group",
+        "https://getbootstrap.com/docs/6.0/components/list-group"
+    ],
+    [
+        "components menu",
+        "https://getbootstrap.com/docs/6.0/components/menu"
+    ],
+    [
+        "components nav",
+        "https://getbootstrap.com/docs/6.0/components/nav"
+    ],
+    [
+        "components nav-overflow",
+        "https://getbootstrap.com/docs/6.0/components/nav-overflow"
+    ],
+    [
+        "components navbar",
+        "https://getbootstrap.com/docs/6.0/components/navbar"
+    ],
+    [
+        "components pagination",
+        "https://getbootstrap.com/docs/6.0/components/pagination"
+    ],
+    [
+        "components placeholder",
+        "https://getbootstrap.com/docs/6.0/components/placeholder"
+    ],
+    [
+        "components popover",
+        "https://getbootstrap.com/docs/6.0/components/popover"
+    ],
+    [
+        "components progress",
+        "https://getbootstrap.com/docs/6.0/components/progress"
+    ],
+    [
+        "components scrollspy",
+        "https://getbootstrap.com/docs/6.0/components/scrollspy"
+    ],
+    [
+        "components spinner",
+        "https://getbootstrap.com/docs/6.0/components/spinner"
+    ],
+    [
+        "components stepper",
+        "https://getbootstrap.com/docs/6.0/components/stepper"
+    ],
+    [
+        "components tab",
+        "https://getbootstrap.com/docs/6.0/components/tab"
+    ],
+    [
+        "components toasts",
+        "https://getbootstrap.com/docs/6.0/components/toasts"
+    ],
+    [
+        "components toggler",
+        "https://getbootstrap.com/docs/6.0/components/toggler"
+    ],
+    [
+        "components tooltip",
+        "https://getbootstrap.com/docs/6.0/components/tooltip"
+    ],
+    [
+        "helpers focus-ring",
+        "https://getbootstrap.com/docs/6.0/helpers/focus-ring"
+    ],
+    [
+        "helpers hover-lift",
+        "https://getbootstrap.com/docs/6.0/helpers/hover-lift"
+    ],
+    [
+        "helpers icon-link",
+        "https://getbootstrap.com/docs/6.0/helpers/icon-link"
+    ],
+    [
+        "helpers position",
+        "https://getbootstrap.com/docs/6.0/helpers/position"
+    ],
+    [
+        "helpers stacks",
+        "https://getbootstrap.com/docs/6.0/helpers/stacks"
+    ],
+    [
+        "helpers stretched-link",
+        "https://getbootstrap.com/docs/6.0/helpers/stretched-link"
+    ],
+    [
+        "helpers text-truncation",
+        "https://getbootstrap.com/docs/6.0/helpers/text-truncation"
+    ],
+    [
+        "helpers vertical-rule",
+        "https://getbootstrap.com/docs/6.0/helpers/vertical-rule"
+    ],
+    [
+        "helpers visually-hidden",
+        "https://getbootstrap.com/docs/6.0/helpers/visually-hidden"
+    ],
+    [
+        "utilities api",
+        "https://getbootstrap.com/docs/6.0/utilities/api"
+    ],
+    [
+        "utilities colors",
+        "https://getbootstrap.com/docs/6.0/utilities/colors"
+    ],
+    [
+        "utilities background",
+        "https://getbootstrap.com/docs/6.0/utilities/background"
+    ],
+    [
+        "utilities color-scheme",
+        "https://getbootstrap.com/docs/6.0/utilities/color-scheme"
+    ],
+    [
+        "utilities theme",
+        "https://getbootstrap.com/docs/6.0/utilities/theme"
+    ],
+    [
+        "utilities aspect-ratio",
+        "https://getbootstrap.com/docs/6.0/utilities/aspect-ratio"
+    ],
+    [
+        "utilities container-queries",
+        "https://getbootstrap.com/docs/6.0/utilities/container-queries"
+    ],
+    [
+        "utilities display",
+        "https://getbootstrap.com/docs/6.0/utilities/display"
+    ],
+    [
+        "utilities float",
+        "https://getbootstrap.com/docs/6.0/utilities/float"
+    ],
+    [
+        "utilities object-fit",
+        "https://getbootstrap.com/docs/6.0/utilities/object-fit"
+    ],
+    [
+        "utilities overflow",
+        "https://getbootstrap.com/docs/6.0/utilities/overflow"
+    ],
+    [
+        "utilities position",
+        "https://getbootstrap.com/docs/6.0/utilities/position"
+    ],
+    [
+        "utilities visibility",
+        "https://getbootstrap.com/docs/6.0/utilities/visibility"
+    ],
+    [
+        "utilities z-index",
+        "https://getbootstrap.com/docs/6.0/utilities/z-index"
+    ],
+    [
+        "utilities align-content",
+        "https://getbootstrap.com/docs/6.0/utilities/align-content"
+    ],
+    [
+        "utilities align-items",
+        "https://getbootstrap.com/docs/6.0/utilities/align-items"
+    ],
+    [
+        "utilities align-self",
+        "https://getbootstrap.com/docs/6.0/utilities/align-self"
+    ],
+    [
+        "utilities flex",
+        "https://getbootstrap.com/docs/6.0/utilities/flex"
+    ],
+    [
+        "utilities gap",
+        "https://getbootstrap.com/docs/6.0/utilities/gap"
+    ],
+    [
+        "utilities grid",
+        "https://getbootstrap.com/docs/6.0/utilities/grid"
+    ],
+    [
+        "utilities justify-content",
+        "https://getbootstrap.com/docs/6.0/utilities/justify-content"
+    ],
+    [
+        "utilities justify-items",
+        "https://getbootstrap.com/docs/6.0/utilities/justify-items"
+    ],
+    [
+        "utilities place-items",
+        "https://getbootstrap.com/docs/6.0/utilities/place-items"
+    ],
+    [
+        "utilities width",
+        "https://getbootstrap.com/docs/6.0/utilities/width"
+    ],
+    [
+        "utilities height",
+        "https://getbootstrap.com/docs/6.0/utilities/height"
+    ],
+    [
+        "utilities margin",
+        "https://getbootstrap.com/docs/6.0/utilities/margin"
+    ],
+    [
+        "utilities padding",
+        "https://getbootstrap.com/docs/6.0/utilities/padding"
+    ],
+    [
+        "utilities space",
+        "https://getbootstrap.com/docs/6.0/utilities/space"
+    ],
+    [
+        "utilities font-family",
+        "https://getbootstrap.com/docs/6.0/utilities/font-family"
+    ],
+    [
+        "utilities font-size",
+        "https://getbootstrap.com/docs/6.0/utilities/font-size"
+    ],
+    [
+        "utilities font-style",
+        "https://getbootstrap.com/docs/6.0/utilities/font-style"
+    ],
+    [
+        "utilities font-weight",
+        "https://getbootstrap.com/docs/6.0/utilities/font-weight"
+    ],
+    [
+        "utilities line-height",
+        "https://getbootstrap.com/docs/6.0/utilities/line-height"
+    ],
+    [
+        "utilities link",
+        "https://getbootstrap.com/docs/6.0/utilities/link"
+    ],
+    [
+        "utilities text-alignment",
+        "https://getbootstrap.com/docs/6.0/utilities/text-alignment"
+    ],
+    [
+        "utilities text-decoration",
+        "https://getbootstrap.com/docs/6.0/utilities/text-decoration"
+    ],
+    [
+        "utilities text-transform",
+        "https://getbootstrap.com/docs/6.0/utilities/text-transform"
+    ],
+    [
+        "utilities text-wrapping",
+        "https://getbootstrap.com/docs/6.0/utilities/text-wrapping"
+    ],
+    [
+        "utilities vertical-align",
+        "https://getbootstrap.com/docs/6.0/utilities/vertical-align"
+    ],
+    [
+        "utilities border",
+        "https://getbootstrap.com/docs/6.0/utilities/border"
+    ],
+    [
+        "utilities border-color",
+        "https://getbootstrap.com/docs/6.0/utilities/border-color"
+    ],
+    [
+        "utilities border-radius",
+        "https://getbootstrap.com/docs/6.0/utilities/border-radius"
+    ],
+    [
+        "utilities divide",
+        "https://getbootstrap.com/docs/6.0/utilities/divide"
+    ],
+    [
+        "utilities pointer-events",
+        "https://getbootstrap.com/docs/6.0/utilities/pointer-events"
+    ],
+    [
+        "utilities user-select",
+        "https://getbootstrap.com/docs/6.0/utilities/user-select"
+    ],
+    [
+        "utilities motion",
+        "https://getbootstrap.com/docs/6.0/utilities/motion"
+    ],
+    [
+        "utilities opacity",
+        "https://getbootstrap.com/docs/6.0/utilities/opacity"
+    ],
+    [
+        "utilities shadows",
+        "https://getbootstrap.com/docs/6.0/utilities/shadows"
+    ],
+    [
+        "form-control ",
+        "https://getbootstrap.com/docs/6.0/forms/form-control/"
+    ],
+    [
+        "radio ",
+        "https://getbootstrap.com/docs/6.0/forms/radio/"
+    ],
+    [
+        "6.0 ",
+        "https://getbootstrap.com/docs/6.0/"
+    ],
+    [
+        "6.0 examples",
+        "https://getbootstrap.com/docs/6.0/examples"
+    ],
+    [
+        "6.0 getting-started",
+        "https://getbootstrap.com/docs/6.0/getting-started"
+    ],
+    [
+        "examples starter-template",
+        "https://getbootstrap.com/docs/6.0/examples/starter-template"
+    ],
+    [
+        "guides webpack",
+        "https://getbootstrap.com/docs/6.0/guides/webpack"
+    ],
+    [
+        "guides parcel",
+        "https://getbootstrap.com/docs/6.0/guides/parcel"
+    ],
+    [
+        "guides vite",
+        "https://getbootstrap.com/docs/6.0/guides/vite"
+    ]
+]
     return render_template("crawlerdb.html",awesomelist=awesomelist,schema=result, mylist=mylist, readme=myreadme, repo=repo, username=user, pageno=pageno)
 
 if __name__ == "__main__":

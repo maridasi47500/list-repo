@@ -249,7 +249,7 @@ def crawlerdescription():
             with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
                 f.write("\n| property name/clé | oui/non/valeur/détails |")
             with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
-                f.write("\n|:----------------|:------:|---------------:|")
+                f.write("\n| :---------------- | :------: |")
             for w in mylist:
                 with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
                     f.write("\n| "+w+"       | "+request.form[w.replace(" ", "_")]+" "+request.form[w.replace(" ", "_")+"description"]+" |")

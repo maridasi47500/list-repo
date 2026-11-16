@@ -231,10 +231,10 @@ def crawlerdescription():
     myreadme = response.text
     if request.method == 'POST':
         try:
-            lieu=request.files["lieu"]
-            programme=request.files["programming"]
-            commonactions=request.files["commonactions"]
-            unusualactions=request.files["unusualactions"]
+            lieu=request.form["lieu"]
+            programme=request.form["programming"]
+            commonactions=request.form["commonactions"]
+            unusualactions=request.form["unusualactions"]
              
             with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "w") as f:
                 f.write("- lieu : "+lieu+"")

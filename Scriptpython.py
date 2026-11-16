@@ -205,6 +205,68 @@ def crawlerpic():
 
     return render_template("crawlerpic.html", readme=myreadme, repo=repo, username=user, pageno=pageno)
 
+@app.route("/crawlerdescription", methods=['GET', 'POST'])
+def crawlerdescription():
+    mylist=["gps", "job ready", "boule de crystal","wifi","4g","bluetooth", "base de données", "art of coding", "traducteur","langue étrangère", "voyage", "partition de musique lilypond", "ruby", "python", "musician story"]# Example usage
+    try:
+        user = request.args.get("username")
+    except:
+        user = ""
+    try:
+        pageno = request.args.get("pageno")
+    except:
+        pageno=""
+    try:
+        repo = request.args.get("repo")
+    except:
+        repo=""
+    url="https://raw.githubusercontent.com/"+user+"/"+repo+"/refs/heads/main/README.md"
+    print(url)
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # Raise HTTPError for bad responses
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching repositories: {e}")
+
+    myreadme = response.text
+    if request.method == 'POST':
+        try:
+            lieu=request.form["lieu"]
+            programme=request.form["programming"]
+            commonactions=request.form["commonactions"]
+            unusualactions=request.form["unusualactions"]
+             
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "w") as f:
+                f.write("- lieu : "+lieu+"")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                f.write("\n- common actions : "+commonactions+"")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                f.write("\n- unusual actions : "+unusualactions+"")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                f.write("\n- ce que je veux programmer : "+programme+"")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                f.write("\n")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                f.write("\n| property name/clé | oui/non/valeur/détails |")
+            with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                f.write("\n|:----------------|:------:|---------------:|")
+            for w in mylist:
+                with open(os.path.join('C:\\','Users',os.getlogin(), repo, "DESCRIPTION.md"), "a") as f:
+                    f.write("\n| "+w+"       | "+request.form[w.replace(" ", "_")]+" "+request.form[w.replace(" ", "_")+"description"]+" |")
+                
+        except Exception as e:
+            print("exception ", str(e))
+
+
+
+
+    else:
+        bdd=[]
+
+
+
+    return render_template("crawlerdescription.html",mylist=mylist, readme=myreadme, repo=repo, username=user, pageno=pageno)
+
 if __name__ == "__main__":
     app.run()
     app.debug = True

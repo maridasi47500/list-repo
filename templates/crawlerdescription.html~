@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block montitre %}
+{{ repo }} de {{ username }}
+{% endblock %}
+
+{% block content %}
+<a href="/?username={{username }}&pageno={{ pageno }}">back to page {{ pageno }}</a>
+<h2>readme {{ repo }} de {{ username }}</h2>
+<a target="_blank" href="https://github.com/{{ username }}/{{ repo }}">accéder au repository</a>
+<p>
+to clone this repository disconnect server : 
+
+<code>
+<input readonly="readonly" value="(cd .. && git clone git@github.com:{{ username }}/{{ repo }}.git)" style="width:300px;"/>
+</code>
+</p>
+<p>
+ to push the database of this repository disconnect server
+<code>
+<input readonly="readonly" value=". pleasecopynow{{ repo }}.sh" style="width:300px;"/>
+</code>
+</p>
+<p>
+ tout en 1 (clone this repository and push the database of this repository
+<code>
+<input readonly="readonly" value="(cd .. && git clone git@github.com:{{ username }}/{{ repo }}.git) && . pleasecopynow{{ repo }}.sh" style="width:300px;"/>
+</code>
+</p>
+<p>
+ push everything on github
+<code>
+<input readonly="readonly" value="(cd .. && cd {{ repo }} && git add DESCRIPTION.md && git commit -am 'jsqhgkj hello there' && git push origin main" style="width:300px;"/>
+</code>
+</p>
+<textarea style="height:200px;width:100%;" readonly=true>
+{{readme}}
+</textarea>
+<form method="post"  enctype="multipart/form-data">
+<div class="field">
+<label>usual/common actions </label>
+<textarea name="commonactions">
+</textarea>
+</div>
+<div class="field">
+<label>unusual actions </label>
+<textarea name="unusualactions">
+</textarea>
+</div>
+<div class="field">
+<label>que veux tu programmer dans cette application (evenement, )</label>
+<input type="text" name="programming" />
+</div>
+<div class="field">
+<label>lieu pour cette application : intérieur(entreprise, ), exterieur (rue)</label>
+<input type="text" name="lieu" />
+</div>
+<div class="field">
+<label>de quoi parle l'application</label>
+{%for y in mylist%}
+{% set x = loop.index %}
+<div class="field">
+	<!--<input type="checkbox" name="myrows[]" value="{{y}}" id="myrow{{x}}" />-->
+	{{y}}
+
+	<label for="myrow{{x}}oui"><input type="radio" name="{{y | replace(" ","_")}}" value="oui" id="myrow{{x}}oui" onchange="myrow{{x}}descriptionlabel.style.display=(document.querySelector('[name={{y | replace(" ","_")}}]:checked').value === 'oui' ? 'inline-block' : 'none');" />oui</label>
+	<label for="myrow{{x}}non"><input type="radio" name="{{y | replace(" ","_")}}" value="non" id="myrow{{x}}non" onchange="myrow{{x}}descriptionlabel.style.display=(document.querySelector('[name={{y | replace(" ","_")}}]:checked').value === 'oui' ? 'inline-block' : 'none');" checked="checked" />non</label>
+	<label style="display:none;" id="myrow{{x}}descriptionlabel" for="myrow{{x}}description">Description : <input type="text" name="{{y | replace(" ","_")}}description" id="myrow{{x}}description"/></label>
+
+</div>
+
+
+{%endfor%}
+</div>
+<input value="send" type="submit"/>
+</form>
+
+{% endblock %}
